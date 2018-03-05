@@ -2,6 +2,12 @@ const express = require('express');
 
 const val = require('validator');
 
+const {
+  insertCategory,
+  insertBook,
+  selectAll,
+} = require('./queries');
+
 const router = express.Router();
 
 async function register(req, res) {
@@ -29,12 +35,28 @@ async function showCategories(req, res) {
 }
 
 async function createCategory(req, res) {
+  const data = await insertCategory({ category: req.body.category });
+  res.json(data);
 }
 
 async function getBooks(req, res) {
+  const data = await selectAll('books');
+  res.json(data);
 }
 
 async function createBook(req, res) {
+  const data = await insertBook({
+    title: req.body.title,
+    ISBN13: req.body.isbn13,
+    author: req.body.author,
+    description: req.body.description,
+    category: req.body.category,
+    ISBN10: req.body.isbn10,
+    datetime: req.body.published,
+    pages: req.body.pagecount,
+    language: req.body.language,
+  });
+  res.json(data);
 }
 
 async function searchBook(req, res) {
