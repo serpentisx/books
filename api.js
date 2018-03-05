@@ -80,23 +80,27 @@ async function readBook(req, res) {
 async function deleteBook(req, res) {
 }
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/users', showAllUsers);
-router.get('/users/:id', showUser);
-router.get('/users/me', showMe);
-router.patch('/users/me', changeMyInfo);
-router.post('/users/me/profile', setProfilePic);
-router.get('/categories', showCategories);
-router.post('/categories', createCategory);
-router.get('/books', getBooks);
-router.post('/books', createBook);
-router.get('/books?search=query', searchBook);
-router.get('/books/:id', getBookById);
-router.patch('/books/:id', updateBook);
-router.get('/users/:id/read', getUserReadBooks);
-router.get('/users/me/read', getMyreadBooks);
-router.post('/users/me/read', readBook);
-router.delete('/users/me/read/:id', deleteBook);
+function catchErrors(fn) {
+  return (req, res, next) => fn(req, res, next).catch(next);
+}
+
+router.post('/register', catchErrors(register));
+router.post('/login', catchErrors(login));
+router.get('/users', catchErrors(showAllUsers));
+router.get('/users/:id', catchErrors(showUser));
+router.get('/users/me', catchErrors(showMe));
+router.patch('/users/me', catchErrors(changeMyInfo));
+router.post('/users/me/profile', catchErrors(setProfilePic));
+router.get('/categories', catchErrors(showCategories));
+router.post('/categories', catchErrors(createCategory));
+router.get('/books', catchErrors(getBooks));
+router.post('/books', catchErrors(createBook));
+router.get('/books?search=query', catchErrors(searchBook));
+router.get('/books/:id', catchErrors(getBookById));
+router.patch('/books/:id', catchErrors(updateBook));
+router.get('/users/:id/read', catchErrors(getUserReadBooks));
+router.get('/users/me/read', catchErrors(getMyreadBooks));
+router.post('/users/me/read', catchErrors(readBook));
+router.delete('/users/me/read/:id', catchErrors(deleteBook));
 
 module.exports = router;
