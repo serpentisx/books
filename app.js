@@ -1,11 +1,18 @@
 require('dotenv').config();
+
 const express = require('express');
-const api = require('./api');
+const accountRouter = require('./router/account');
+const bookRouter = require('./router/book');
+const usersRouter = require('./router/users');
 
 const app = express();
 
 app.use(express.json());
-app.use('/', api);
+
+app.use('/', bookRouter);
+app.use('/', accountRouter);
+app.use('/users', usersRouter);
+
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   res.status(404).json({ error: 'Not found' });
