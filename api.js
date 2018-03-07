@@ -87,8 +87,8 @@ function catchErrors(fn) {
 router.post('/register', catchErrors(register));
 router.post('/login', catchErrors(login));
 router.get('/users', catchErrors(showAllUsers));
-router.get('/users/:id', catchErrors(showUser));
 router.get('/users/me', catchErrors(showMe));
+router.get('/users/:id', catchErrors(showUser));
 router.patch('/users/me', catchErrors(changeMyInfo));
 router.post('/users/me/profile', catchErrors(setProfilePic));
 router.get('/categories', catchErrors(showCategories));
@@ -98,8 +98,8 @@ router.post('/books', catchErrors(createBook));
 router.get('/books?search=query', catchErrors(searchBook));
 router.get('/books/:id', catchErrors(getBookById));
 router.patch('/books/:id', catchErrors(updateBook));
-router.get('/users/:id/read', catchErrors(getUserReadBooks));
 router.get('/users/me/read', catchErrors(getMyreadBooks));
+router.get('/users/:id/read', catchErrors(getUserReadBooks));
 router.post('/users/me/read', catchErrors(readBook));
 router.delete('/users/me/read/:id', catchErrors(deleteBook));
 
