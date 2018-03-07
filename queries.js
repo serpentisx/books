@@ -5,13 +5,14 @@ const { Client } = require('pg');
 
 const connectionString = process.env.DATABASE_URL;
 
-async function query(q, s) {
+async function query(q, values = []) {
   const client = new Client({ connectionString });
 
   await client.connect();
 
   try {
-    const result = await client.query(q, s);
+    const cleanedData = values.map(data => xss(data))
+    const result = await client.query(q, cleanedData);
 
     // const { rows } = result;
     return result;
@@ -24,7 +25,7 @@ async function query(q, s) {
 }
 
 async function insertCategory({ category } = {}) {
-  const t = await query('INSERT INTO categories(category) VALUES($1) RETURNING *', [xss(category)]);
+  const t = await query('INSERT INTO categories(category) VALUES($1) RETURNING *', [category]);
   return t.rows;
 }
 
@@ -32,12 +33,13 @@ async function insertBook({
   title, ISBN13, author, description, category,
   ISBN0, datetime, pages, language,
 } = {}) {
-  const t = await query('INSERT INTO books(title, ISBN13, author, description, category, ISBN0, datetime, pages, language) VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9 ) RETURNING *', [xss(title), xss(ISBN13), xss(author), xss(description), xss(category), xss(ISBN0), xss(datetime), xss(pages), xss(language)]);
+  const data = [title, ISBN13, author, description, category, ISBN0, datetime, pages, language];
+  const t = await query('INSERT INTO books(title, ISBN13, author, description, category, ISBN0, datetime, pages, language) VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9 ) RETURNING *', data);
   return t.rows;
 }
 
 async function selectAll(table) {
-  const t = await query('SELECT * FROM $1', [xss(table)]);
+  const t = await query('SELECT * FROM $1', [table]);
   return t.rows;
 }
 
