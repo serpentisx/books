@@ -20,7 +20,7 @@ CREATE TABLE books (
     category integer NOT NULL REFERENCES categories,
     isbn10 character varying(10),
     datetime timestamp with time zone,
-    pagecount integer CHECK (pages > 0),
+    pagecount integer CHECK (pagecount > 0),
     language character varying(2)
 );
 
