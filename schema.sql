@@ -14,11 +14,11 @@ CREATE TABLE categories (
 CREATE TABLE books (
     id serial primary key,
     title character varying(255) NOT NULL UNIQUE,
-    ISBN13 character varying(13) NOT NULL UNIQUE CHECK (ISBN13 ~ '^[0-9 ]*$'),
+    isbn13 character varying(13) NOT NULL UNIQUE CHECK (ISBN13 ~ '^[0-9 ]*$'),
     author character varying(255),
     description text,
     category integer NOT NULL REFERENCES categories,
-    ISBN0 character varying(10),
+    isbn10 character varying(10),
     datetime timestamp with time zone,
     pagecount integer CHECK (pages > 0),
     language character varying(2)
