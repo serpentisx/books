@@ -50,6 +50,8 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
+router.post('/login', catchErrors(login));
+router.get('/users', 
 router.get('/categories', catchErrors(showCategories));
 router.post('/categories', catchErrors(createCategory));
 router.get('/books', catchErrors(getBooks));
