@@ -8,7 +8,9 @@
     "express": "^4.16.2",
     "pg": "^7.4.1",
     "validator": "^9.4.1",
-    "xss": "^0.3.7"
+    "xss": "^0.3.7",
+    "pug": "^2.0.0-rc.4",
+    "moment": "^2.20.1"
   },
   "devDependencies": {
     "eslint": "^4.17.0",
