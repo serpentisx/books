@@ -7,7 +7,7 @@ const {
     insertCategory,
     insertBook,
     selectAll,
-  } = require('../db');
+  } = require('../queries/booksDb');
 
 async function showCategories(req, res) {
 }
