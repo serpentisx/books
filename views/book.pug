@@ -1,5 +1,6 @@
-mixin book(title, author, price, img)
+mixin book(title, author, price, img, href)
   .bs__book
+    a.book__anchor(href=href) 
     img(src=img, alt=title)
     .bs__ds
       h4.bs__title #{title}

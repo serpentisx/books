@@ -35,12 +35,12 @@ block content
     .best__sellers.section
       h3 Best sellers
       each book in bestsellers
-        +book(book.title, book.author, book.price, book.imgurl)
+        +book(book.title, book.author, book.price, book.imgurl, `/books/${book.id}`)
     .trending.section
       h3 Trending
       .slider
         each book in trending
-          +book(book.title, book.author, book.price, book.imgurl)
+          +book(book.title, book.author, book.price, book.imgurl, `/books/${book.id}`)
     .most__recent.section
       h3 Most recent
       .slider
