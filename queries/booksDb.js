@@ -44,7 +44,7 @@ async function queryMany(q, values = []) {
 
 async function selectAllCategories(offset = 0, limit = 10) {
   const result = await query('SELECT * FROM categories ORDER BY category OFFSET $1 LIMIT $2', [offset, limit]);
-  
+
   return result.rows;
 }
 
@@ -90,6 +90,12 @@ async function selectAllBooks() {
   return t.rows;
 }
 
+async function selectBookById(id) {
+  const t = await query('SELECT * FROM books where id = $1', [id]);
+
+  return t.rows[0];
+}
+
 async function selectBestSellersBooks(offset = 0, limit = 10) {
   const result = await query('SELECT * FROM books WHERE bsrank > 0 ORDER BY bsrank OFFSET $1 LIMIT $2', [offset, limit]);
 
@@ -113,6 +119,7 @@ module.exports = {
   insertCategory,
   insertBook,
   selectAllBooks,
+  selectBookById,
   insertExtraInfo,
   insertManyBooks,
   selectBestSellersBooks,
