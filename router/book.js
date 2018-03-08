@@ -4,10 +4,10 @@ const validator = require('validator');
 const router = express.Router();
 
 const {
-    insertCategory,
-    insertBook,
-    selectAll,
-  } = require('../queries/booksDb');
+  insertCategory,
+  insertBook,
+  selectAll,
+} = require('../queries/booksDb');
 
 async function showCategories(req, res) {
 }
@@ -25,7 +25,7 @@ async function getBooks(req, res) {
 async function createBook(req, res) {
   const data = await insertBook({
     title: req.body.title,
-    ISBN13: req.body.isbn13,
+    isbn13: req.body.isbn13,
     author: req.body.author,
     description: req.body.description,
     category: req.body.category,
