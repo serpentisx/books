@@ -49,21 +49,21 @@ header div {
 .slick-prev:before,
 .slick-next:before {
   color: #389399 !important;
-  font-size: 30px;
+  font-size: 30px !important;
   position: relative;
   bottom: 16px;
 }
 
 .slick-prev {
-  left: -60px;
+  left: -60px !important;
 }
 
 .slick-next {
-  right: -48px;
+  right: -48px !important;
 }
 
 .slick-dots {
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 
 .slick-slide {
@@ -147,6 +147,15 @@ textarea {
   outline: none;
 }
 
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 100ms ease;
+}
+
 .book__categories {
   margin: 0 auto;
   margin-top: 100px;
@@ -159,6 +168,12 @@ textarea {
   background-position: center;
   height: 260px;
   margin: 10px 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.book__category:hover .layer {
+  background: #ffffff33
 }
 
 .bc__title {
@@ -209,6 +224,11 @@ textarea {
   position: relative;
   min-height: 346px !important;
   max-height: 346px !important;
+  cursor: pointer;
+}
+
+.bs__book:hover .bs__title {
+  color: #2678d9;
 }
 
 .bs__book img {
