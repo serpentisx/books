@@ -1,0 +1,51 @@
+extends layout
+
+include book
+
+block styles
+  link(rel='stylesheet', type='text/css', href='slick/slick.css')
+  link(rel='stylesheet', type='text/css', href='slick/slick-theme.css')
+
+block content
+  include header
+  main
+    .search__container
+      form.search__form(method='POST', action='/search')
+        .search__bar
+          span.search__icon
+            i.fas.fa-search
+          input#search(type='search', name='search', placeholder='Search by title')
+        input.search__btn(type='submit', value='Search')
+    .book__categories.section
+      h3 Categories
+      .category__row.row
+        - for(var i = 0; i < 4; i++)
+          .col-3
+            .book__category
+              .bc__title
+                p #{categories[i].category}
+      .category__row.row
+        - for(var i = 4; i < categories.length; i++)
+          .col-3
+            .book__category
+              .bc__title
+                p #{categories[i].category}
+    .best__sellers.section
+      h3 Best sellers
+      each book in bestsellers
+        +book(book.title, book.author, book.price, book.imgurl)
+    .trending.section
+      h3 Trending
+      .slider
+        each book in trending
+          +book(book.title, book.author, book.price, book.imgurl)
+    .most__recent.section
+      h3 Most recent
+      .slider
+        each book in mostrecent
+          +book(book.title, book.author, book.price, book.imgurl)
+  footer
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  script(defer='', src='fontawesome-all.js')
+  script(type='text/javascript', src='slick/slick.min.js')
+  script(src='main.js')

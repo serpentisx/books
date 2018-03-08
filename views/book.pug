@@ -1,0 +1,7 @@
+mixin book(title, author, price, img)
+  .bs__book
+    img(src=img, alt=title)
+    .bs__ds
+      h4.bs__title #{title}
+      span.bs__author #{author}
+      span.bs__price #{price}
