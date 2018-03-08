@@ -13,7 +13,8 @@ async function query(q, values = []) {
   await client.connect();
 
   try {
-    const cleanedData = values.map(data => xss(data));
+    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
+
     const result = await client.query(q, cleanedData);
 
     return result;
@@ -29,20 +30,21 @@ async function queryMany(q, values = []) {
   const client = await pool.connect();
 
   try {
-    const cleanedData = values.map(data => xss(data));
+    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
     const res = await client.query(q, cleanedData);
 
     return res;
   } catch (err) {
     console.error('Error running query on: ', values);
+    throw err;
   } finally {
-    client.release();
+    await client.release();
   }
 }
 
 async function selectAllCategories(offset = 0, limit = 10) {
-  const result = query('SELECT * FROM categories ORDER BY category OFFSET $1 LIMIT $2', [offset, limit]);
-
+  const result = await query('SELECT * FROM categories ORDER BY category OFFSET $1 LIMIT $2', [offset, limit]);
+  
   return result.rows;
 }
 
@@ -88,6 +90,24 @@ async function selectAllBooks() {
   return t.rows;
 }
 
+async function selectBestSellersBooks(offset = 0, limit = 10) {
+  const result = await query('SELECT * FROM books WHERE bsrank > 0 ORDER BY bsrank OFFSET $1 LIMIT $2', [offset, limit]);
+
+  return result.rows;
+}
+
+async function selectMostRecentBooks(offset = 0, limit = 10) {
+  const result = await query('SELECT * FROM books ORDER BY published DESC OFFSET $1 LIMIT $2', [offset, limit]);
+
+  return result.rows;
+}
+
+async function selectRandomBooks(offset = 0, limit = 10) {
+  const result = await query('SELECT * FROM books ORDER BY random() OFFSET $1 LIMIT $2', [offset, limit]);
+
+  return result.rows;
+}
+
 module.exports = {
   selectAllCategories,
   insertCategory,
@@ -95,5 +115,8 @@ module.exports = {
   selectAllBooks,
   insertExtraInfo,
   insertManyBooks,
+  selectBestSellersBooks,
+  selectMostRecentBooks,
+  selectRandomBooks,
   query,
 };
