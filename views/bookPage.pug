@@ -1,0 +1,104 @@
+extends layout
+
+block head
+  title= book.title
+  link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css', rel='stylesheet')
+  link(rel='stylesheet', type='text/css', media='screen', href='/book.css')
+  
+block content
+  include header
+  main
+    .book__info-wrapper
+      .book__container
+        img.book__img(src=book.imgurl, alt=book.title)
+        .bi__container
+          .book__info
+            h2 #{book.title}
+            .bi
+              span.bi__label Author
+              span.bi__val #{book.author}
+            .bi
+              span.bi__label Category
+              span.bi__val #{book.category}
+            .bi
+              span.bi__label Publication date
+              span.bi__val #{book.published}
+            .bi
+              span.bi__label ISBN10
+              span.bi__val #{book.isbn10}
+            .bi
+              span.bi__label ISBN13
+              span.bi__val #{book.isbn13}
+            .bi
+              span.bi__label Language
+              span.bi__val #{book.language}
+            .bi
+              span.bi__label Pages
+              span.bi__val #{book.pagecount}
+            .bi
+              span.bi__d.bi__label Description
+              p.bi__description
+                | #{book.description}
+            .bi__price
+              | #{book.price}
+      .book__review-container
+        h2  Reviews
+        .br__review
+          img.br__img(src='/img/book-category.jpg', alt='')
+          .br__content-wrapper
+            .br__content
+              p.br__ad Huy Nguyen, 26-12-2018
+              .br__rating
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p.br__title Excellent book!
+              p.br__description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        .br__review
+          img.br__img(src='/img/book-category.jpg', alt='')
+          .br__content-wrapper
+            .br__content
+              p.br__ad Huy Nguyen, 26-12-2018
+              .br__rating
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p.br__title Excellent book!
+              p.br__description
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      .w__review
+        form.review__form(method='POST', action='')
+          input#review_name.r__name(type='text', name='review_name', placeholder='Name')
+          label(for='review_name', title='Name')
+          input#review_title.r__title(type='text', name='review_title', placeholder='Title')
+          label(for='review_title', title='Title')
+          textarea#review_text.r__text(rows='8', cols='80', name='review_text', placeholder='Comment')
+          label(for='review_text', title='Review comment')
+          .star-rating
+            span Rating: 
+            fieldset
+              input#star5(type='radio', name='rating', value='5')
+              label(for='star5', title='Outstanding') 5 stars
+              input#star4(type='radio', name='rating', value='4')
+              label(for='star4', title='Very Good') 4 stars
+              input#star3(type='radio', name='rating', value='3')
+              label(for='star3', title='Good') 3 stars
+              input#star2(type='radio', name='rating', value='2')
+              label(for='star2', title='Poor') 2 stars
+              input#star1(type='radio', name='rating', value='1')
+              label(for='star1', title='Very Poor') 1 star
+          input#review_submit.r__submit(type='submit', name='review_submit', placeholder='Submit')
+    .recently__container
+      p Recently viewed
+  footer
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  script(defer='', src='/fontawesome-all.js')

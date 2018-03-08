@@ -1,5 +1,6 @@
 const express = require('express');
 const validator = require('validator');
+const bookDB = require('../queries/booksDb');
 
 const router = express.Router();
 
@@ -41,6 +42,10 @@ async function searchBook(req, res) {
 }
 
 async function getBookById(req, res) {
+  const { id } = req.params;
+  const book = await bookDB.selectBookById(id);
+
+  res.render('bookPage', { book });
 }
 
 async function updateBook(req, res) {
