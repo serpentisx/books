@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Amaranth');
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  position: relative;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+header {
+  background: url('img/bg.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 430px;
+}
+
+header h2 {
+  font-size: 3.6em;
+}
+
+header p {
+  font-size: 1.2em;
+}
+
+header p:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -16px;
+  height: 5px;
+  width: 5em;
+  background-color: #d4d9df;
+}
+
+header div {
+  font-family: 'Amaranth', sans-serif;
+  color: #d2d7dd;
+  position: relative;
+  top: 30%;
+  left: 10%;
+  width: fit-content;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #389399 !important;
+  font-size: 30px;
+  position: relative;
+  bottom: 16px;
+}
+
+.slick-prev {
+  left: -60px;
+}
+
+.slick-next {
+  right: -48px;
+}
+
+.slick-dots {
+  margin-bottom: 30px;
+}
+
+.slick-slide {
+  margin: 0 10px;
+}
+
+.slick-list {
+  margin: 0 -10px;
+}
+
+.section {
+  max-width: 1118px;
+  min-width: 1118px;
+  margin: 0 auto;
+}
+
+.search__form {
+  width: 60%;
+  height: 55px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.search__bar {
+  position: relative;
+  width: 100%;
+}
+
+.search__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 25px;
+  color: dimgrey;
+  font-size: 1.2em;
+}
+
+.search__bar input {
+  height: 100%;
+  padding-left: 80px !important;
+}
+
+.search__btn {
+  height: 100%;
+  background: #646464 !important;
+  color: #f2f2f2;
+  width: 165px !important;
+  cursor: pointer;
+}
+
+.search__container {
+  height: 100px;
+  background: #313131;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 0;
+}
+
+.search__container input,
+textarea {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  padding: 0 15px;
+  box-sizing: border-box;
+  letter-spacing: 1.9px;
+}
+
+.search__btn:hover {
+  background: #5e5c5c !important;
+  transition: all 100ms ease;
+}
+
+.search__container input:active,
+.search__container input:focus,
+.search__container textarea:active,
+.search__container textarea:focus {
+  outline: none;
+}
+
+.book__categories {
+  margin: 0 auto;
+  margin-top: 100px;
+  position: relative;
+}
+
+.book__category {
+  background-image: url('img/book-category.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 260px;
+  margin: 10px 0;
+}
+
+.bc__title {
+  position: relative;
+  left: 94px;
+  top: 48px;
+  height: 83px;
+  width: 117px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bc__title p {
+  font-size: 1.3em;
+  line-height: 26px;
+  text-align: center;
+  margin: 0 10px;
+  position: relative;
+  color: #eaeaea;
+}
+
+.best__sellers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.best__sellers h3 {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.bs__book {
+  width: 140px;
+  height: 346px;
+  margin-bottom: 70px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .24);
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  position: relative;
+  min-height: 346px !important;
+  max-height: 346px !important;
+}
+
+.bs__book img {
+  width: 100%;
+  height: 232px;
+}
+
+.bs__author {
+    
+-webkit-line-clamp: 1;
+    
+-webkit-box-orient: vertical;
+    
+overflow: hidden;
+    
+text-overflow: ellipsis;
+    
+display: -webkit-box;
+    
+height: 28px;
+}
+
+.bs__title {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #214269;
+  margin-bottom: 0;
+  width: 90%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  height: 49px;
+}
+
+.bs__price {
+  display: block;
+  font-weight: bold;
+  color: #af5959;
+  position: absolute;
+  bottom: 5px;
+}
+
+.bs__ds {
+  margin-left: 10px;
+}
+
+footer {
+  margin-top: 170px;
+  height: 165px;
+  background: #313131;
+}
