@@ -3,12 +3,19 @@ require('dotenv').config();
 const express = require('express');
 const accountRouter = require('./router/account');
 const bookRouter = require('./router/book');
+const path = require('path');
 const usersRouter = require('./router/users');
+const index = require('./router/index');
 
 const app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+app.use('/', index);
 app.use('/', bookRouter);
 app.use('/', accountRouter);
 app.use('/users', usersRouter);
