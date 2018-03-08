@@ -12,7 +12,7 @@ a {
 }
 
 header {
-  background: url('img/bg.jpg');
+  background: url('../img/bg.jpg');
   background-position: center;
   background-size: cover;
   height: 430px;
@@ -66,6 +66,9 @@ main {
 .book__img {
   width: 260px;
   height: 410px;
+  min-width: 260px;
+  min-height: 410px;
+
 }
 
 .book__img img {}

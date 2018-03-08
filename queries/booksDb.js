@@ -48,6 +48,12 @@ async function selectAllCategories(offset = 0, limit = 10) {
   return result.rows;
 }
 
+async function selectCategoryById(id) {
+  const result = await query('SELECT * FROM categories where id = $1', [id]);
+
+  return result.rows[0].category;
+}
+
 async function insertCategory(category, client) {
   const t = await query('INSERT INTO categories(category) VALUES($1) RETURNING *', [category], client);
 
@@ -116,6 +122,7 @@ async function selectRandomBooks(offset = 0, limit = 10) {
 
 module.exports = {
   selectAllCategories,
+  selectCategoryById,
   insertCategory,
   insertBook,
   selectAllBooks,

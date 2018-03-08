@@ -1,0 +1,62 @@
+header {
+  background: url('../img/bg.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 430px;
+}
+
+header h2 {
+  font-size: 3.6em;
+}
+
+header p {
+  font-size: 1.2em;
+}
+
+header p:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -16px;
+  height: 5px;
+  width: 5em;
+  background-color: #d4d9df;
+}
+
+header div {
+  font-family: 'Amaranth', sans-serif;
+  color: #d2d7dd;
+  position: relative;
+  top: 30%;
+  left: 10%;
+  width: fit-content;
+}
+
+.book__icon {
+  width: 26px;
+  filter: invert(28%);
+  transition: all 400ms ease;
+}
+
+.book__icon-container {
+  position: absolute;
+  left: 30px;
+  top: 22px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #b6bcc3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 400ms ease;
+}
+
+.book__icon-container:hover {
+  width: 60px;
+  height: 60px;
+}
+
+.book__icon-container:hover .book__icon {
+  width: 30px;
+}

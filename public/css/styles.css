@@ -12,40 +12,6 @@ a {
   text-decoration: none;
 }
 
-header {
-  background: url('img/bg.jpg');
-  background-position: center;
-  background-size: cover;
-  height: 430px;
-}
-
-header h2 {
-  font-size: 3.6em;
-}
-
-header p {
-  font-size: 1.2em;
-}
-
-header p:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -16px;
-  height: 5px;
-  width: 5em;
-  background-color: #d4d9df;
-}
-
-header div {
-  font-family: 'Amaranth', sans-serif;
-  color: #d2d7dd;
-  position: relative;
-  top: 30%;
-  left: 10%;
-  width: fit-content;
-}
-
 .slick-prev:before,
 .slick-next:before {
   color: #389399 !important;
@@ -163,7 +129,7 @@ textarea {
 }
 
 .book__category {
-  background-image: url('img/book-category.jpg');
+  background-image: url('../img/book-category.jpg');
   background-size: cover;
   background-position: center;
   height: 260px;
