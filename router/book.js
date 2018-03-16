@@ -23,14 +23,13 @@ async function createCategory(req, res) {
 }
 
 async function getBooks(req, res) {
+  const lim = req.query.limit;
+  const off = req.query.offset;
   if (req.query.search != null) {
-    console.log('rrrr');
-    const data = await search(req.query.search);
-    console.log(data);
+    const data = await search(req.query.search, off, lim);
     res.json(data);
   } else {
-    console.log('bbbbbb');
-    const data = await selectAllBooks();
+    const data = await selectAllBooks(off, lim);
     res.json(data);
   }
 }
@@ -47,13 +46,6 @@ async function createBook(req, res) {
     pages: req.body.pagecount,
     language: req.body.language,
   });
-  res.json(data);
-}
-
-async function searchBook(req, res) {
-  console.log('rrrr');
-  const data = await search(req.query.search);
-  console.log('rere');
   res.json(data);
 }
 
@@ -74,7 +66,6 @@ function catchErrors(fn) {
 
 router.get('/categories', catchErrors(showCategories));
 router.post('/categories', catchErrors(createCategory));
-router.get('/books?search=query', catchErrors(searchBook));
 router.get('/books', catchErrors(getBooks));
 router.post('/books', catchErrors(createBook));
 router.get('/books/:id', catchErrors(getBookById));

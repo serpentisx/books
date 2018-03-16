@@ -120,8 +120,8 @@ async function selectRandomBooks(offset = 0, limit = 10) {
   return result.rows;
 }
 
-async function search(word) {
-  const result = await query('SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1)', [word]);
+async function search(word, offset = 0, limit = 10) {
+  const result = await query('SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1) OFFSET $2 LIMIT $3', [word, offset, limit]);
   return result.rows;
 }
 
