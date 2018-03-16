@@ -7,10 +7,14 @@ const router = express.Router();
 const {
   insertCategory,
   insertBook,
-  selectAll,
+  selectAllBooks,
+  selectAllCategories,
+  search,
 } = require('../queries/booksDb');
 
 async function showCategories(req, res) {
+  const data = await selectAllCategories();
+  res.json(data);
 }
 
 async function createCategory(req, res) {
@@ -19,7 +23,7 @@ async function createCategory(req, res) {
 }
 
 async function getBooks(req, res) {
-  const data = await selectAll('books');
+  const data = await selectAllBooks();
   res.json(data);
 }
 
@@ -39,6 +43,8 @@ async function createBook(req, res) {
 }
 
 async function searchBook(req, res) {
+  const data = await search(req.query.search);
+  res.json(data);
 }
 
 async function getBookById(req, res) {

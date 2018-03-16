@@ -90,8 +90,8 @@ async function insertExtraInfo(id, { imgUrl, price, bsRank }) {
   return t.rows[0];
 }
 
-async function selectAllBooks() {
-  const t = await query('SELECT * FROM books');
+async function selectAllBooks(offset = 0, limit = 10) {
+  const t = await query('SELECT * FROM books ORDER BY title OFFSET $1 LIMIT $2', [offset, limit]);
 
   return t.rows;
 }
@@ -120,6 +120,11 @@ async function selectRandomBooks(offset = 0, limit = 10) {
   return result.rows;
 }
 
+async function search(word) {
+  const result = await query('SELECT title FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1)', [word]);
+  return result.rows;
+}
+
 module.exports = {
   selectAllCategories,
   selectCategoryById,
@@ -133,4 +138,5 @@ module.exports = {
   selectMostRecentBooks,
   selectRandomBooks,
   query,
+  search,
 };
