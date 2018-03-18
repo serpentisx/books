@@ -3,10 +3,23 @@ const validator = require('validator');
 
 const router = express.Router();
 
+const {
+  selectAllUsers,
+  selectUserById,
+  selectAllReviewsByUserId,
+  insertReview,
+  deleteReviewById,
+} = require('../queries/usersDb');
+
+
 async function showAllUsers(req, res) {
+  const data = await selectAllUsers();
+  res.json(data);
 }
 
 async function showUser(req, res) {
+  const data = await selectUserById();
+  res.json(data);
 }
 
 async function showMe(req, res) {
@@ -19,6 +32,9 @@ async function setProfilePic(req, res) {
 }
 
 async function getUserReadBooks(req, res) {
+  const { id } = req.params;
+  const data = await selectAllReviewsByUserId(id);
+  res.json(data);
 }
 
 async function getMyreadBooks(req, res) {

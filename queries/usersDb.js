@@ -54,6 +54,7 @@ async function deleteReviewById(id) {
   return result.rowCount === 1;
 }
 
+
 module.exports = {
   selectAllUsers,
   selectUserById,
