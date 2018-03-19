@@ -23,7 +23,7 @@ async function query(q, values = []) {
   }
 }
 
-async function register({
+async function registerUser({
   username,
   passwordhash,
   name,
@@ -36,5 +36,5 @@ async function register({
 }
 
 module.exports = {
-  register,
+  registerUser,
 };
