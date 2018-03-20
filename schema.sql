@@ -31,6 +31,7 @@ CREATE TABLE review (
     id serial primary key,
     userid integer NOT NULL REFERENCES users,
     bookid integer NOT NULL REFERENCES books,
+    title character varying(255) NOT NULL CHECK (title <> '',
     rating integer NOT NULL CHECK (rating >= 1 and rating <= 5),
     review text
 );
