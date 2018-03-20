@@ -52,14 +52,16 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
+router.get('/*', requireAuthentication, (req, res, next) => next());
+
 router.get('/', requireAuthentication, catchErrors(showAllUsers));
-router.get('/users/:id', requireAuthentication, catchErrors(showUser));
-router.get('/users/me', requireAuthentication, catchErrors(showMe));
-router.patch('/users/me', requireAuthentication, catchErrors(changeMyInfo));
-router.post('/users/me/profile', requireAuthentication, catchErrors(setProfilePic));
-router.get('/users/:id/read', requireAuthentication, catchErrors(getUserReadBooks));
-router.get('/users/me/read', requireAuthentication, catchErrors(getMyreadBooks));
-router.post('/users/me/read', requireAuthentication,catchErrors(readBook));
-router.delete('/users/me/read/:id', requireAuthentication, catchErrors(deleteBook));
+router.get('/:id', catchErrors(showUser));
+router.get('/me', catchErrors(showMe));
+router.patch('/me', catchErrors(changeMyInfo));
+router.post('/me/profile', catchErrors(setProfilePic));
+router.get('/:id/read', catchErrors(getUserReadBooks));
+router.get('/me/read', catchErrors(getMyreadBooks));
+router.post('/me/read', catchErrors(readBook));
+router.delete('/me/read/:id', catchErrors(deleteBook));
 
 module.exports = router;
