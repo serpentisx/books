@@ -29,7 +29,7 @@ async function registerUser({
   name,
   imagepath,
 } = {}) {
-  const data = [username, passwordhash, name, imagepath];
+  const data = [xss(username), xss(passwordhash), xss(name), xss(imagepath)];
   const result = query('INSERT INTO users(username, passwordhash, name, imagepath) VALUES($1, $2, $3, $4) RETURNING *', data);
 
   return result.rows[0];

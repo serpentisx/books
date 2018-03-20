@@ -4,8 +4,16 @@ const validator = require('validator');
 const router = express.Router();
 
 async function register(req, res) {
-  /* const data = await registerUser({ username: req.body.username, passwordhash: req.body.password, name: req.body.name, imagepath: req.body.imagepath});
-  res.json(data); */
+  /*
+  hash req.body.password here
+  */
+  const data = await registerUser({
+    username: req.body.username,
+    passwordhash: hashedPassword,
+    name: req.body.name,
+    imagepath: req.body.imagepath,
+  });
+  res.json(data);
 }
 
 async function login(req, res) {

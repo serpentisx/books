@@ -75,53 +75,56 @@ async function insertBook({
 async function insertManyBooks({
   title, isbn13, author, description, category, published, pagecount, language,
 } = {}) {
-  const res = await queryMany('SELECT id FROM categories where category = $1', [category]);
+  const res = await queryMany('SELECT id FROM categories where category = $1', [xss(category)]);
   const categoryId = res.rows[0].id;
-  const data = [title, author, description, isbn13, categoryId, published, pagecount, language];
-
+  const data = [
+    xss(title),
+    xss(author),
+    xss(description),
+    xss(isbn13),
+    xss(categoryId),
+    xss(published),
+    xss(pagecount),
+    xss(language)];
   const t = await queryMany('INSERT INTO books(title, author, description, isbn13, category, published, pagecount, language) VALUES( $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', data);
 
   return t.rows[0];
 }
 
 async function insertExtraInfo(id, { imgUrl, price, bsRank }) {
-  const t = await queryMany('UPDATE books SET imgUrl = $1, price = $2, bsRank = $3 WHERE id = $4 RETURNING *', [imgUrl, price, bsRank, id]);
-
+  const t = await queryMany('UPDATE books SET imgUrl = $1, price = $2, bsRank = $3 WHERE id = $4 RETURNING *', [xss(imgUrl), xss(price), xss(bsRank), id]);
   return t.rows[0];
 }
 
 async function selectAllBooks(offset = 0, limit = 10) {
-  const t = await query('SELECT * FROM books ORDER BY title OFFSET $1 LIMIT $2', [offset, limit]);
+  const t = await query('SELECT * FROM books ORDER BY title OFFSET $1 LIMIT $2', [xss(offset), xss(limit)]);
 
   return t.rows;
 }
 
 async function selectBookById(id) {
-  const t = await query('SELECT * FROM books where id = $1', [id]);
+  const t = await query('SELECT * FROM books where id = $1', [xss(id)]);
 
   return t.rows[0];
 }
 
 async function selectBestSellersBooks(offset = 0, limit = 10) {
-  const result = await query('SELECT * FROM books WHERE bsrank > 0 ORDER BY bsrank OFFSET $1 LIMIT $2', [offset, limit]);
-
+  const result = await query('SELECT * FROM books WHERE bsrank > 0 ORDER BY bsrank OFFSET $1 LIMIT $2', [xss(offset), xss(limit)]);
   return result.rows;
 }
 
 async function selectMostRecentBooks(offset = 0, limit = 10) {
-  const result = await query('SELECT * FROM books ORDER BY published DESC OFFSET $1 LIMIT $2', [offset, limit]);
-
+  const result = await query('SELECT * FROM books ORDER BY published DESC OFFSET $1 LIMIT $2', [xss(offset), xss(limit)]);
   return result.rows;
 }
 
 async function selectRandomBooks(offset = 0, limit = 10) {
-  const result = await query('SELECT * FROM books ORDER BY random() OFFSET $1 LIMIT $2', [offset, limit]);
-
+  const result = await query('SELECT * FROM books ORDER BY random() OFFSET $1 LIMIT $2', [xss(offset), xss(limit)]);
   return result.rows;
 }
 
 async function search(word, offset = 0, limit = 10) {
-  const result = await query('SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1) OFFSET $2 LIMIT $3', [word, offset, limit]);
+  const result = await query('SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1) OFFSET $2 LIMIT $3', [xss(word), xss(offset), xss(limit)]);
   return result.rows;
 }
 
