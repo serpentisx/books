@@ -24,32 +24,32 @@ async function query(q, values = []) {
 }
 
 async function selectAllUsers(offset = 0, limit = 10) {
-  const result = query('SELECT id, username, name, imagepath FROM users ORDER BY name OFFSET $1 LIMIT $2', [xss(offset), xss(limit)]);
+  const result = query('SELECT id, username, name, imagepath FROM users ORDER BY name OFFSET $1 LIMIT $2', [offset, limit]);
 
   return result.rows[0];
 }
 
 async function selectUserById(id) {
-  const result = query('SELECT id, username, name, imagepath FROM users WHERE id = $1', [xss(id)]);
+  const result = query('SELECT id, username, name, imagepath FROM users WHERE id = $1', [id]);
 
   return result.rows[0];
 }
 
 async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
-  const result = query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [xss(id), xss(offset), xss(limit)]);
+  const result = query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [id, offset, limit]);
 
   return result.rows[0];
 }
 
 async function insertReview({ userid, bookid, rating, review } = {}) {
-  const data = [xss(userid), xss(bookid), xss(rating), xss(review)];
+  const data = [userid, bookid, rating, review];
   const result = query('INSERT INTO review(userid, bookid, rating, review) VALUES($1, $2, $3, $4) RETURNING *', data);
 
   return result.rows[0];
 }
 
 async function deleteReviewById(id) {
-  const result = query('DELETE FROM review where id = $1', [xss(id)]);
+  const result = query('DELETE FROM review where id = $1', [id]);
 
   return result.rowCount === 1;
 }

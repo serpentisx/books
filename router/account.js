@@ -3,6 +3,10 @@ const validator = require('validator');
 
 const router = express.Router();
 
+const {
+  registerUser,
+} = require('../queries/accountDb');
+
 async function register(req, res) {
   /*
   hash req.body.password here
