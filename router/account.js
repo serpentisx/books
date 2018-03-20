@@ -4,6 +4,7 @@ const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const jwt = require('jsonwebtoken');
 const userAuth = require('../userAuth');
+const val = require('../validators/userValidator');
 
 const router = express.Router();
 
@@ -65,15 +66,24 @@ function requireAuthentication(req, res, next) {
 }
 
 async function register(req, res) {
+  const { name, password, username } = req.body;
+  const errors = val.validate({ name, password, username });
+  if (errors.length > 0) {
+    return res.json(errors);
+  }
+
   const hash = await bcrypt.hash(req.body.password, saltRounds);
   const data = await registerUser({
     username: req.body.username,
     passwordhash: hash,
     name: req.body.name,
   });
+  console.log(data.error);
+  if (data.error === 'username taken') {
+    return res.json(data);
+  }
   const dataWithoutPassword = { username: data.username, name: data.name };
-
-  res.json(dataWithoutPassword);
+  return res.json(dataWithoutPassword);
 }
 
 async function login(req, res) {
