@@ -1,5 +1,6 @@
 const express = require('express');
 const validator = require('validator');
+const usersDB = require('../queries/usersDb');
 
 const router = express.Router();
 
@@ -41,10 +42,15 @@ async function getUserReadBooks(req, res) {
   res.json(data);
 }
 
-async function getMyreadBooks(req, res) {
+async function getMyReviews(req, res) {
+
 }
 
-async function readBook(req, res) {
+async function postReview(req, res) {
+  const { reviewTitle: title, reviewText: comment, rating } = req.body;
+  await usersDB.insertReview({ userid: req.user.id, bookid: req.query.id, title, comment, rating });
+
+  return res.redirect(`/books/${req.query.id}`);
 }
 
 async function deleteBook(req, res) {
@@ -54,15 +60,15 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-router.get('/*', requireAuthentication, (req, res, next) => next());
+router.use('/*', requireAuthentication, (req, res, next) => next());
 
 router.get('/', catchErrors(showAllUsers));
 router.get('/me', catchErrors(showMe));
 router.get('/:id', catchErrors(showUser));
 router.patch('/me', catchErrors(changeMyInfo));
 router.post('/me/profile', catchErrors(setProfilePic));
-router.get('/me/read', catchErrors(getMyreadBooks));
-router.post('/me/read', catchErrors(readBook));
+router.get('/me/read', catchErrors(getMyReviews));
+router.post('/me/read', catchErrors(postReview));
 router.delete('/me/read/:id', catchErrors(deleteBook));
 router.get('/:id/read', catchErrors(getUserReadBooks));
 

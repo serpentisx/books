@@ -43,6 +43,10 @@ router.use(passport.initialize());
 const saltRounds = 10;
 
 function requireAuthentication(req, res, next) {
+  console.log(req.userToken);
+  
+  req.headers.authorization = `bearer ${req.userToken}`;
+
   return passport.authenticate(
     'jwt',
     { session: false },
@@ -84,6 +88,8 @@ async function login(req, res) {
     const tokenOptions = { expiresIn: tokenLifetime };
     const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
 
+    req.userToken = token;
+
     return res.json({ token });
   }
   return res.status(401).json({ error: 'Invalid password' });
@@ -99,5 +105,6 @@ router.post('/login', catchErrors(login));
 module.exports = {
   router,
   requireAuthentication,
+  jwt,
 };
 

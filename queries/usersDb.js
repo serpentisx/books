@@ -42,9 +42,9 @@ async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
   return result.rows;
 }
 
-async function insertReview({ userid, bookid, rating, review } = {}) {
-  const data = [userid, bookid, rating, review];
-  const result = await query('INSERT INTO review(userid, bookid, rating, review) VALUES($1, $2, $3, $4) RETURNING *', data);
+async function insertReview({ userid, bookid, title, rating, review } = {}) {
+  const data = [userid, bookid, title, rating, review];
+  const result = await query('INSERT INTO review(userid, bookid, title, rating, review) VALUES($1, $2, $3, $4, $5) RETURNING *', data);
 
   return result.rows[0];
 }
@@ -61,4 +61,5 @@ module.exports = {
   selectUserById,
   selectAllReviewsByUserId,
   deleteReviewById,
+  insertReview,
 };

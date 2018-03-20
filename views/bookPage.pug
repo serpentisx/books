@@ -76,12 +76,10 @@ block content
                 | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
       .w__review
-        form.review__form(method='POST', action='')
-          input#review_name.r__name(type='text', name='review_name', placeholder='Name')
-          label(for='review_name', title='Name')
-          input#review_title.r__title(type='text', name='review_title', placeholder='Title')
+        form.review__form(method='POST', action=`/users/me/read?id=${id}`)
+          input#review_title.r__title(type='text', name='reviewTitle', placeholder='Title')
           label(for='review_title', title='Title')
-          textarea#review_text.r__text(rows='8', cols='80', name='review_text', placeholder='Comment')
+          textarea#review_text.r__text(rows='8', cols='80', name='reviewText', placeholder='Comment')
           label(for='review_text', title='Review comment')
           .star-rating
             span Rating: 
