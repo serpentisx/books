@@ -20,11 +20,13 @@ async function showAllUsers(req, res) {
 }
 
 async function showUser(req, res) {
-  const data = await selectUserById();
+  const data = await selectUserById(req.params.id);
   res.json(data);
 }
 
 async function showMe(req, res) {
+  const data = await selectUserById(req.user.id);
+  res.json(data);
 }
 
 async function changeMyInfo(req, res) {
@@ -54,14 +56,14 @@ function catchErrors(fn) {
 
 router.get('/*', requireAuthentication, (req, res, next) => next());
 
-router.get('/', requireAuthentication, catchErrors(showAllUsers));
-router.get('/:id', catchErrors(showUser));
+router.get('/', catchErrors(showAllUsers));
 router.get('/me', catchErrors(showMe));
+router.get('/:id', catchErrors(showUser));
 router.patch('/me', catchErrors(changeMyInfo));
 router.post('/me/profile', catchErrors(setProfilePic));
-router.get('/:id/read', catchErrors(getUserReadBooks));
 router.get('/me/read', catchErrors(getMyreadBooks));
 router.post('/me/read', catchErrors(readBook));
 router.delete('/me/read/:id', catchErrors(deleteBook));
+router.get('/:id/read', catchErrors(getUserReadBooks));
 
 module.exports = router;
