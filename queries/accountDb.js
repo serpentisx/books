@@ -27,14 +27,22 @@ async function registerUser({
   username,
   passwordhash,
   name,
-  imagepath,
 } = {}) {
-  const data = [username, passwordhash, name, imagepath];
-  const result = query('INSERT INTO users(username, passwordhash, name, imagepath) VALUES($1, $2, $3, $4) RETURNING *', data);
+  const data = [username, passwordhash, name];
+  const count = await query('SELECT username FROM users WHERE username = $1', [username]);
+  let result = '';
+  if (count.rowCount === 0) {
+    result = await query('INSERT INTO users(username, passwordhash, name) VALUES($1, $2, $3) RETURNING *', data);
+  }
+  return result.rows[0];
+}
 
+async function getUserByUsername(username) {
+  const result = await query('SELECT * FROM users WHERE username = $1', [username]);
   return result.rows[0];
 }
 
 module.exports = {
   registerUser,
+  getUserByUsername,
 };
