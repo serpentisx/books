@@ -31,7 +31,7 @@ function validate({
   }
 
   if (published) {
-    if (!(checkTypeofString(published) && published.length <= 10 && published.length > 0)) {
+    if (!(checkTypeofString(published) && published.length <= 10)) {
       errors.push({ field: 'published', message: 'Publication date must be a string of length 1 - 10' });
     }
   }
