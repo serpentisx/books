@@ -15,9 +15,9 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+app.use('/', accountRouter.router);
 app.use('/', index);
 app.use('/', bookRouter);
-app.use('/', accountRouter);
 app.use('/users', usersRouter);
 
 

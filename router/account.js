@@ -5,11 +5,13 @@ const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const jwt = require('jsonwebtoken');
 const userVal = require('../validators/userValidator');
+const userAuth = require('../userAuth');
+
+const router = express.Router();
 
 const {
-  PORT: port = 3000,
   JWT_SECRET: jwtSecret,
-  TOKEN_LIFETIME: tokenLifetime = 20,
+  TOKEN_LIFETIME: tokenLifetime = 60000,
 } = process.env;
 
 if (!jwtSecret) {
@@ -22,9 +24,41 @@ const jwtOptions = {
   secretOrKey: jwtSecret,
 }
 
+async function strat(data, next) {
+  const user = await userAuth.findById(data.id);
+
+  if (user) {
+    next(null, user);
+  } else {
+    next(null, false);
+  }
+}
+
+passport.use(new Strategy(jwtOptions, strat));
+
+router.use(passport.initialize());
+
+
 const saltRounds = 10;
 
-const router = express.Router();
+function requireAuthentication(req, res, next) {
+  console.log('kksddksdkdsk');
+  return passport.authenticate(
+    'jwt',
+    { session: false },
+    (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        const error = info.name === 'TokenExpiredError' ? 'expired token' : 'invalid token';
+        return res.status(401).json({ error });
+      }
+      req.user = user;
+      next();
+    },
+  )(req, res, next);
+}
 
 const {
   registerUser,
@@ -63,7 +97,12 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
+
 router.post('/register', catchErrors(register));
 router.post('/login', catchErrors(login));
 
-module.exports = router;
+module.exports = {
+  router,
+  requireAuthentication,
+};
+
