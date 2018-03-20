@@ -1,7 +1,11 @@
 const express = require('express');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
+const val = require('../validators/userValidator');
 
 const router = express.Router();
+
+const saltRounds = 10;
 
 const {
   selectAllUsers,
@@ -9,6 +13,7 @@ const {
   selectAllReviewsByUserId,
   insertReview,
   deleteReviewById,
+  updateUserById,
 } = require('../queries/usersDb');
 
 const { requireAuthentication } = require('../router/account');
@@ -30,6 +35,16 @@ async function showMe(req, res) {
 }
 
 async function changeMyInfo(req, res) {
+  const { name, password } = req.body;
+
+  const errors = val.validate({ name, password, username: req.user.username });
+  if (errors.length > 0) {
+    return res.json(errors);
+  }
+
+  const passwordhash = await bcrypt.hash(password, saltRounds);
+  const data = await updateUserById(req.user.id, { name, passwordhash });
+  return res.json(data);
 }
 
 async function setProfilePic(req, res) {
@@ -54,7 +69,7 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-router.get('/*', requireAuthentication, (req, res, next) => next());
+router.use('/*', requireAuthentication, (req, res, next) => next());
 
 router.get('/', catchErrors(showAllUsers));
 router.get('/me', catchErrors(showMe));

@@ -36,6 +36,12 @@ async function selectUserById(id) {
   return result.rows[0];
 }
 
+async function updateUserById(id, { name, passwordhash } = {}) {
+  const result = await query('UPDATE users SET name = $2, passwordhash = $3 WHERE id = $1 RETURNING *', [id, name, passwordhash]);
+
+  return result.rows[0];
+}
+
 async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
   const result = await query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [id, offset, limit]);
 
@@ -61,4 +67,5 @@ module.exports = {
   selectUserById,
   selectAllReviewsByUserId,
   deleteReviewById,
+  updateUserById,
 };
