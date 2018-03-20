@@ -33,8 +33,11 @@ async function registerUser({
   let result = '';
   if (count.rowCount === 0) {
     result = await query('INSERT INTO users(username, passwordhash, name) VALUES($1, $2, $3) RETURNING *', data);
+    return result.rows[0];
   }
-  return result.rows[0];
+  const taken = { error: 'username taken' };
+  console.log(taken);
+  return taken;
 }
 
 async function getUserByUsername(username) {
