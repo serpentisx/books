@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const { Client } = require('pg');
+const xss = require('xss');
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -10,7 +11,8 @@ async function query(q, values = []) {
   let result;
 
   try {
-    result = await client.query(q, values);
+    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
+    result = await client.query(q, cleanedData);
   } catch (err) {
     throw err;
   } finally {
@@ -40,12 +42,9 @@ async function findByUsername(username) {
 
 async function findById(id) {
   const q = 'SELECT * FROM users WHERE id = $1';
-
   const result = await query(q, [id]);
-  console.log(id,result);
 
   if (result.rowCount === 1) {
-    console.log(result.rows[0]);
     return result.rows[0];
   }
 

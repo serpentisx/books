@@ -1,13 +1,16 @@
 const express = require('express');
-const validator = require('validator');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const jwt = require('jsonwebtoken');
-const userVal = require('../validators/userValidator');
 const userAuth = require('../userAuth');
 
 const router = express.Router();
+
+const {
+  registerUser,
+  getUserByUsername,
+} = require('../queries/accountDb');
 
 const {
   JWT_SECRET: jwtSecret,
@@ -22,7 +25,7 @@ if (!jwtSecret) {
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: jwtSecret,
-}
+};
 
 async function strat(data, next) {
   const user = await userAuth.findById(data.id);
@@ -35,14 +38,11 @@ async function strat(data, next) {
 }
 
 passport.use(new Strategy(jwtOptions, strat));
-
 router.use(passport.initialize());
-
 
 const saltRounds = 10;
 
 function requireAuthentication(req, res, next) {
-  console.log('kksddksdkdsk');
   return passport.authenticate(
     'jwt',
     { session: false },
@@ -55,15 +55,10 @@ function requireAuthentication(req, res, next) {
         return res.status(401).json({ error });
       }
       req.user = user;
-      next();
+      return next();
     },
   )(req, res, next);
 }
-
-const {
-  registerUser,
-  getUserByUsername,
-} = require('../queries/accountDb');
 
 async function register(req, res) {
   const hash = await bcrypt.hash(req.body.password, saltRounds);
@@ -73,6 +68,7 @@ async function register(req, res) {
     name: req.body.name,
   });
   const dataWithoutPassword = { username: data.username, name: data.name };
+
   res.json(dataWithoutPassword);
 }
 
@@ -84,10 +80,10 @@ async function login(req, res) {
   }
   const c = await bcrypt.compare(password, user.passwordhash);
   if (c === true) {
-    // skila token
     const payload = { id: user.id };
     const tokenOptions = { expiresIn: tokenLifetime };
     const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
+
     return res.json({ token });
   }
   return res.status(401).json({ error: 'Invalid password' });
@@ -96,7 +92,6 @@ async function login(req, res) {
 function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
-
 
 router.post('/register', catchErrors(register));
 router.post('/login', catchErrors(login));

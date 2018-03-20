@@ -12,7 +12,7 @@ async function query(q, values = []) {
   await client.connect();
 
   try {
-    const cleanedData = values.map(data => xss(data));
+    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
     const result = await client.query(q, cleanedData);
 
     return result;
