@@ -52,7 +52,7 @@ skráir notndan inn og skilar token, t.d.:
 ```
 uppfærir upplýsingar um notanda og skilar notandaupplýsingum.
 
-* `PATCH` á `/users/me/profile` ..................................................
+* `POST` á `/users/me/profile` með `multipart/form-data` uppfærir prófílmynd notanda.
 
 * `GET` á `/categories` sýnir alla flokka.
 
