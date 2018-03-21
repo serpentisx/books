@@ -7,7 +7,7 @@ Til þess að koma öllum upplýingum inn í gagnagrunninn þarf svo að keyra c
 
 ## Dæmi um köll í vefþjónustu
 
-`Post` á `/register` með 
+`POST` á `/register` með 
 ```json
 {
   "username": "notandi",
@@ -23,6 +23,21 @@ býr til notandann og skilar
 }
 ```
 
+`POST` á `/login` með 
+```json
+{
+  "username": "notandi",
+  "password": "123" 
+}
+```
+skráir notndan inn og skilar token, t.d.:
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNTIxNjQxMTgwLCJleHAiOjE1Mjc2NDExODB9.QuMUvXci1uyAQS8pv9uoci_K8x7130UWgt6nY7OUi0E"
+}
+```
+
+`GET` á `/users` þegar notandi er innskráður skilar lista af notendum, hægt er að tilgreina limit og offset í query streng. Til dæmis `/users?limit=2&offset=1`
 
 
 ## Nöfn og notendanöfn allra í hóp
