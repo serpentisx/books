@@ -98,11 +98,15 @@ uppfærir bókina í gagnagrunninum sem hefur samsvarandi id og í slóðinni.
 
 ```json
 {
+    "id": "500",
     "reviewTitle": "Great book",
-    "comment": Best book I have read",
+    "reviewText": "Best book I have read",
     "rating": "5"
 }
 ```
+býr til lestur á bók með id 500 í gagnagrunninum. Einnig má tilgreina id í query string sem sagt `/users/me/read?id=500`
+
+* `POST` á `/users/me/read/:id` eyðir lestri á þeirri bók með tilsvarandi id fyrir innskráðan notanda.
 
 
 
