@@ -14,7 +14,9 @@ const {
 } = require('../queries/booksDb');
 
 async function showCategories(req, res) {
-  const data = await selectAllCategories();
+  const lim = req.query.limit;
+  const off = req.query.offset;
+  const data = await selectAllCategories(off, lim);
   res.json(data);
 }
 

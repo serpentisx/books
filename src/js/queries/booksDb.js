@@ -5,7 +5,7 @@ const { query, queryMany } = require('./query');
 async function selectAllCategories(offset = 0, limit = 10) {
   const result = await query('SELECT * FROM categories ORDER BY category OFFSET $1 LIMIT $2', [offset, limit]);
 
-  return result.rows;
+  return { LIMIT: limit, OFFSET: offset, items: result.rows };
 }
 
 async function selectCategoryById(id) {
