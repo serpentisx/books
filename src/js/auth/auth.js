@@ -27,10 +27,6 @@ async function strat(data, next) {
 passport.use(new Strategy(jwtOptions, strat));
 
 function verifyToken(req, res, next) {
-  console.log('veryfinggdsfds');
-  console.log(`bearer ${req.cookies.userToken}`);
-  
-
   return passport.authenticate(
     'jwt',
     { session: false },
@@ -41,8 +37,6 @@ function verifyToken(req, res, next) {
       if (user) {
         req.user = user;
         res.locals.user = user;
-        console.log('sucesss veryyyyy');
-        
       }
       return next();
     },
