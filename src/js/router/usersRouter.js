@@ -1,7 +1,9 @@
 const express = require('express');
 const usersDB = require('../queries/usersDb');
+const bookDB = require('../queries/booksDb');
 const bcrypt = require('bcrypt');
 const val = require('../validators/userValidator');
+const reviewVal = require('../validators/reviewValidator');
 
 const router = express.Router();
 const saltRounds = 10;
@@ -48,10 +50,26 @@ async function getMyReviews(req, res) {
 }
 
 async function postReview(req, res) {
+  console.log(req.body);
   const { reviewTitle: title, reviewText: comment, rating } = req.body;
-  await usersDB.insertReview({ userid: req.user.id, bookid: req.query.id, title, review: comment, rating });
+  const id = req.body.id || req.query.id;
+  const errors = reviewVal.validate({
+    title, rating,
+  });
 
-  return res.redirect(`/books/${req.query.id}`);
+  if (errors.length > 0) {
+    return res.json(errors);
+  }
+  console.log(req.user.id);
+  await bookDB.insertReview({
+    userid: req.user.id,
+    bookid: id,
+    title,
+    review: comment,
+    rating,
+  });
+
+  return res.redirect(`/books/${id}`);
 }
 
 async function deleteBook(req, res) {
