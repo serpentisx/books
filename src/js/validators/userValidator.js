@@ -1,4 +1,6 @@
-function validate({ name, username, password } = {}) {
+function validate({
+  name, username, password,
+} = {}) {
   const errors = [];
 
   if (!(typeof name === 'string' && name)) {

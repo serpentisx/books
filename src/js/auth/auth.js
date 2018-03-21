@@ -1,6 +1,6 @@
 const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
-const { selectUserById: findUserById } = require('../queries/usersDb');
+const { selectUserByIdAlternate: findUserById } = require('../queries/usersDb');
 
 const { JWT_SECRET: jwtSecret } = process.env;
 
