@@ -41,16 +41,16 @@ async function setProfilePic(req, res) {
 
 async function getUserReadBooks(req, res) {
   const { id } = req.params;
-  const data = await usersDB.selectAllReviewsByUserId(id);
+  const data = await bookDB.selectAllReviewsByUserId(id);
   res.json(data);
 }
 
 async function getMyReviews(req, res) {
-
+  const data = await bookDB.selectAllReviewsByUserId(req.user.id);
+  res.json(data);
 }
 
 async function postReview(req, res) {
-  console.log(req.body);
   const { reviewTitle: title, reviewText: comment, rating } = req.body;
   const id = req.body.id || req.query.id;
   const errors = reviewVal.validate({
@@ -60,7 +60,6 @@ async function postReview(req, res) {
   if (errors.length > 0) {
     return res.json(errors);
   }
-  console.log(req.user.id);
   await bookDB.insertReview({
     userid: req.user.id,
     bookid: id,
@@ -73,6 +72,8 @@ async function postReview(req, res) {
 }
 
 async function deleteBook(req, res) {
+  const data = await bookDB.deleteReviewById(req.params.id);
+  res.json(data);
 }
 
 function catchErrors(fn) {
