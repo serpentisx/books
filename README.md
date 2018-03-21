@@ -68,5 +68,5 @@ býr til flokkinn Christmas stories og skilar honum.
 
 ## Nöfn og notendanöfn allra í hóp
 
-Bjarki Viðar Kristjánsson, bvk1@hi.is
-Huy Van Nguyen, hvn1@hi.is
+\- [Bjarki Viðar Kristjánsson](https://github.com/bjarkivk/), bvk1@hi.is <br>
+\- [Huy Van Nguyen](https://github.com/serpentisx/), hvn1@hi.is
