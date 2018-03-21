@@ -59,7 +59,7 @@ async function createBook(req, res) {
   if (data === undefined) {
     return res.status(404).json({ error: 'Category does not exist' });
   }
-  return res.json(data);
+  return res.status(201).json(data);
 }
 
 async function getBookById(req, res) {
@@ -69,7 +69,9 @@ async function getBookById(req, res) {
 
   book.category = await bookDB.selectCategoryById(book.category);
 
-  res.render('bookPage', { book, id, reviews, moment });
+  res.render('bookPage', {
+    book, id, reviews, moment,
+  });
 }
 
 async function updateBookInfo(req, res) {

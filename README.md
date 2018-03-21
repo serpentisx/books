@@ -106,7 +106,7 @@ uppfærir bókina í gagnagrunninum sem hefur samsvarandi id og í slóðinni.
 ```
 býr til lestur á bók með id 500 í gagnagrunninum. Einnig má tilgreina id í query string sem sagt `/users/me/read?id=500`
 
-* `POST` á `/users/me/read/:id` eyðir lestri á þeirri bók með tilsvarandi id fyrir innskráðan notanda.
+* `DELETE` á `/users/me/read/:id` eyðir lestri á þeirri bók með tilsvarandi id fyrir innskráðan notanda.
 
 
 

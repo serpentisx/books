@@ -40,7 +40,9 @@ async function showMe(req, res) {
 async function changeMyInfo(req, res) {
   const { name, password } = req.body;
   const errors = val.validate({
-    name: (name || req.user.name), username: req.user.username, password: (password || req.user.password),
+    name: (name || req.user.name),
+    username: req.user.username,
+    password: (password || req.user.password),
   });
   if (errors.length > 0) {
     return res.json(errors);
@@ -92,7 +94,7 @@ async function postReview(req, res) {
   const errors = reviewVal.validate({
     title, rating,
   });
-  
+
   if (errors.length > 0) {
     return res.json(errors);
   }

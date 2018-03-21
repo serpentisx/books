@@ -104,7 +104,7 @@ async function selectReviewsByBookId(bookid) {
   return result.rows;
 }
 
-async function insertReview({ 
+async function insertReview({
   userid, bookid, title, rating, review,
 } = {}) {
   const data = [userid, bookid, title, rating, review];

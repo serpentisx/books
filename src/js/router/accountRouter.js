@@ -30,7 +30,7 @@ async function register(req, res) {
   }
   const dataWithoutPassword = { username: data.username, name: data.name };
 
-  return res.json(dataWithoutPassword);
+  return res.status(201).json(dataWithoutPassword);
 }
 
 async function login(req, res) {
