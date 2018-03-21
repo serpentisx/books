@@ -8,6 +8,22 @@ Til þess að koma öllum upplýingum inn í gagnagrunninn þarf svo að keyra c
 ## Dæmi um köll í vefþjónustu
 
 `Post` á `/register` með 
+```json
+{
+  "username": "notandi",
+  "name": "Notandi Jónsson",
+  "password": "123" 
+}
+```
+býr til notandann og skilar
+```json
+{
+    "username": "notandi",
+    "name": "Notandi Jónsson"
+}
+```
+
+
 
 ## Nöfn og notendanöfn allra í hóp
 
