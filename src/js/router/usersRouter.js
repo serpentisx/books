@@ -50,7 +50,6 @@ async function getMyReviews(req, res) {
 }
 
 async function postReview(req, res) {
-  console.log(req.body);
   const { reviewTitle: title, reviewText: comment, rating } = req.body;
   const id = req.body.id || req.query.id;
   const errors = reviewVal.validate({
@@ -60,7 +59,6 @@ async function postReview(req, res) {
   if (errors.length > 0) {
     return res.json(errors);
   }
-  console.log(req.user.id);
   await bookDB.insertReview({
     userid: req.user.id,
     bookid: id,

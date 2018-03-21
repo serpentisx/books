@@ -93,6 +93,11 @@ async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
 
   return result.rows;
 }
+async function selectReviewsByBookId(bookid) {
+  const result = await query('SELECT * FROM review WHERE bookid = $1', [bookid]);
+
+  return result.rows;
+}
 
 async function insertReview({ userid, bookid, title, rating, review } = {}) {
   const data = [userid, bookid, title, rating, review];
@@ -122,6 +127,7 @@ module.exports = {
   query,
   search,
   selectAllReviewsByUserId,
+  selectReviewsByBookId,
   insertReview,
   deleteReviewById,
   updateBook,

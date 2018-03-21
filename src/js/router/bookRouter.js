@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const bookDB = require('../queries/booksDb');
 const val = require('../validators/bookValidator');
 
@@ -59,9 +60,10 @@ async function createBook(req, res) {
 async function getBookById(req, res) {
   const { id } = req.params;
   const book = await bookDB.selectBookById(id);
+  const reviews = await bookDB.selectReviewsByBookId();
   book.category = await bookDB.selectCategoryById(book.category);
 
-  res.render('bookPage', { book, id });
+  res.render('bookPage', { book, id, reviews, moment });
 }
 
 async function updateBookInfo(req, res) {
