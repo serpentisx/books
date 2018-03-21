@@ -17,7 +17,11 @@ async function showAllUsers(req, res) {
 
 async function showUser(req, res) {
   const data = await usersDB.selectUserById(req.params.id);
-  res.json(data);
+  if (!data.error) {
+    res.json(data);
+  } else {
+    res.status(404).json(data);
+  }
 }
 
 async function showMe(req, res) {
@@ -59,7 +63,7 @@ async function postReview(req, res) {
   const errors = reviewVal.validate({
     title, rating,
   });
-
+  
   if (errors.length > 0) {
     return res.json(errors);
   }

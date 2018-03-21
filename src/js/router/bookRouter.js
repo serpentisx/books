@@ -56,6 +56,9 @@ async function createBook(req, res) {
   const data = await insertBook({
     title, isbn13, author, description, category, ISBN10, datetime, pages, language,
   });
+  if (data === undefined) {
+    return res.status(404).json({ error: 'Category does not exist' });
+  }
   return res.json(data);
 }
 
@@ -86,6 +89,9 @@ async function updateBookInfo(req, res) {
   const data = await updateBook({
     title, isbn13, author, description, category, ISBN10, datetime, pages, language, id,
   });
+  if (data === undefined) {
+    return res.status(404).json({ error: 'Category or Id does not exist' });
+  }
   return res.json(data);
 }
 
