@@ -64,6 +64,46 @@ uppfærir upplýsingar um notanda og skilar notandaupplýsingum.
 ```
 býr til flokkinn Christmas stories og skilar honum.
 
+* `GET` á `/books` sýnir allar bækur.
+
+* `POST` á `/books` með
+```json
+{
+    "title": "Páskabók 3",
+    "category": "Fantasy",
+    "isbn13": "9783601387619"
+}
+```
+býr til bókina og skilar henni.
+
+* `GET` á `/books?search=potter` sýnir allar bækur sem hafa orðið 'potter' í title eða description.
+
+* `GET` á `/books/:id` skilar þeirri bók sem hefur samsvarandi id.
+
+* `PATCH` á `/books/:id` með
+```json
+{
+    "title": "Páskabók 4",
+    "category": "Fantasy",
+    "isbn13": "9783601387619"
+}
+```
+uppfærir bókina í gagnagrunninum sem hefur samsvarandi id og í slóðinni.
+
+* `GET` á `/users/:id/read` skilar lesnum bókum notanda með samsvarandi id.
+
+* `GET` á `/users/me/read` skilar lesnum bókum notanda sem er innskráður.
+
+* `POST` á `/users/me/read` með
+
+```json
+{
+    "reviewTitle": "Great book",
+    "comment": Best book I have read",
+    "rating": "5"
+}
+```
+
 
 
 ## Nöfn og notendanöfn allra í hóp
