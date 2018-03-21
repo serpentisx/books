@@ -4,13 +4,13 @@ const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 const util = require('util');
 const cloudinary = require('cloudinary');
-const bookDb = require('./queries/booksDb');
-const scraper = require('./scraper');
+const bookDb = require('./src/js/queries/booksDb');
+const scraper = require('./src/js/scraper');
 
 const readFileAsync = util.promisify(fs.readFile);
 
 const CLOUDINARY_API = process.env.CLOUDINARY_URL;
-const csvFilePath = './data/books.csv';
+const csvFilePath = './src/data/books.csv';
 const categoriesSet = new Set();
 
 cloudinary.config({ CLOUDINARY_API });
@@ -65,7 +65,7 @@ async function getExtraInfo() {
   });
 }
 
-//createDbFromCSV();
+createDbFromCSV();
 //getExtraInfo();
 
 module.exports = {

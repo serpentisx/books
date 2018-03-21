@@ -42,34 +42,27 @@ async function updateUserById(id, { name, passwordhash } = {}) {
   return result.rows[0];
 }
 
-async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
-  const result = await query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [id, offset, limit]);
+async function insertNewUser({ username, passwordhash, name } = {}) {
+  const data = [username, passwordhash, name];
+  const count = await query('SELECT username FROM users WHERE username = $1', [username]);
+  let result = '';
+  if (count.rowCount === 0) {
+    result = await query('INSERT INTO users(username, passwordhash, name) VALUES($1, $2, $3) RETURNING *', data);
+    return result.rows[0];
+  }
 
-  return result.rows;
+  return { error: 'username taken' };
 }
 
-async function insertReview({ userid, bookid, title, rating, review } = {}) {
-  const data = [userid, bookid, title, rating, review];
-  const result = await query('INSERT INTO review(userid, bookid, title, rating, review) VALUES($1, $2, $3, $4, $5) RETURNING *', data);
-
+async function selectUserByUsername(username) {
+  const result = await query('SELECT * FROM users WHERE username = $1', [username]);
   return result.rows[0];
 }
-
-async function deleteReviewById(id) {
-  const result = await query('DELETE FROM review where id = $1', [id]);
-
-  return result.rowCount === 1;
-}
-
 
 module.exports = {
   selectAllUsers,
   selectUserById,
-  selectAllReviewsByUserId,
-  deleteReviewById,
-<<<<<<< HEAD
-  insertReview,
-=======
   updateUserById,
->>>>>>> fc8021886e078cee805751aa2eeafbec0ab4ab49
+  insertNewUser,
+  selectUserByUsername,
 };

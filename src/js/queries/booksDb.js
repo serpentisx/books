@@ -1,46 +1,6 @@
 require('dotenv').config();
 
-const xss = require('xss');
-const { Client } = require('pg');
-const { Pool } = require('pg');
-
-const connectionString = process.env.DATABASE_URL;
-
-const pool = new Pool({ connectionString });
-
-async function query(q, values = []) {
-  const client = new Client({ connectionString });
-  await client.connect();
-
-  try {
-    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
-
-    const result = await client.query(q, cleanedData);
-
-    return result;
-  } catch (err) {
-    console.error('Error running query');
-    throw err;
-  } finally {
-    await client.end();
-  }
-}
-
-async function queryMany(q, values = []) {
-  const client = await pool.connect();
-
-  try {
-    const cleanedData = values.map(data => (typeof data === 'string' ? xss(data) : data));
-    const res = await client.query(q, cleanedData);
-
-    return res;
-  } catch (err) {
-    console.error('Error running query on: ', values);
-    throw err;
-  } finally {
-    await client.release();
-  }
-}
+const { query, queryMany } = require('./query');
 
 async function selectAllCategories(offset = 0, limit = 10) {
   const result = await query('SELECT * FROM categories ORDER BY category OFFSET $1 LIMIT $2', [offset, limit]);
@@ -77,15 +37,7 @@ async function insertManyBooks({
 } = {}) {
   const res = await queryMany('SELECT id FROM categories where category = $1', [category]);
   const categoryId = res.rows[0].id;
-  const data = [
-    xss(title),
-    xss(author),
-    xss(description),
-    xss(isbn13),
-    xss(categoryId),
-    xss(published),
-    xss(pagecount),
-    xss(language)];
+  const data = [title, author, description, isbn13, categoryId, published, pagecount, language];
   const t = await queryMany('INSERT INTO books(title, author, description, isbn13, category, published, pagecount, language) VALUES( $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', data);
 
   return t.rows[0];
@@ -128,6 +80,25 @@ async function search(word, offset = 0, limit = 10) {
   return result.rows;
 }
 
+async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
+  const result = await query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [id, offset, limit]);
+
+  return result.rows;
+}
+
+async function insertReview({ userid, bookid, title, rating, review } = {}) {
+  const data = [userid, bookid, title, rating, review];
+  const result = await query('INSERT INTO review(userid, bookid, title, rating, review) VALUES($1, $2, $3, $4, $5) RETURNING *', data);
+
+  return result.rows[0];
+}
+
+async function deleteReviewById(id) {
+  const result = await query('DELETE FROM review where id = $1', [id]);
+
+  return result.rowCount === 1;
+}
+
 module.exports = {
   selectAllCategories,
   selectCategoryById,
@@ -142,4 +113,7 @@ module.exports = {
   selectRandomBooks,
   query,
   search,
+  selectAllReviewsByUserId,
+  insertReview,
+  deleteReviewById,
 };

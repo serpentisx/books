@@ -1,5 +1,4 @@
 const express = require('express');
-const validator = require('validator');
 const bookDB = require('../queries/booksDb');
 
 const router = express.Router();
