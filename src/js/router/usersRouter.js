@@ -71,9 +71,6 @@ async function setProfilePic(req, res, next) {
   const { secure_url } = upload; // eslint-disable-line
   const result = await usersDB.updateProfilePicture(req.user.id, secure_url);
 
-  console.log(result);
-  
-
   return res.json(result ? result : { error: '500 - error on updating profile picture ' }); // eslint-disable-line
 }
 
