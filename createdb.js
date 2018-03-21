@@ -56,8 +56,7 @@ async function getExtraInfo() {
                 .then(() => console.info('Done', b.id))
                 .catch(() => 'Error running query for ', b.id);
             }, { public_id: data.isbn13 });
-          } 
-          else {
+          } else {
             console.error('Error scraping on: ', b.isbn13);
           }
         }).catch(err => console.error(err));
@@ -66,7 +65,7 @@ async function getExtraInfo() {
 }
 
 createDbFromCSV();
-//getExtraInfo();
+// getExtraInfo();
 
 module.exports = {
   createDbFromCSV,

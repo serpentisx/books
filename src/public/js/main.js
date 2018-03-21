@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 $(document).ready(function () {
   const k = $('.book__category');
 

@@ -4,9 +4,7 @@ const cheerio = require('cheerio');
 async function getBook(isbn13) {
   const options = {
     uri: `https://www.bookdepository.com/search?searchTerm=${isbn13}&search=Find+book`,
-    transform: (body) => {
-      return cheerio.load(body);
-    },
+    transform: body => cheerio.load(body),
   };
 
   try {
@@ -19,7 +17,12 @@ async function getBook(isbn13) {
     const price = $('.sale-price').text() || listPrice.substring(listPrice.search(/\d/), listPrice.length) || '-';
     bsRank = bsRank ? Number(bsRank.join('')) : -1;
 
-    return { imgUrl, price, bsRank, isbn13 };
+    return {
+      imgUrl,
+      price,
+      bsRank,
+      isbn13,
+    };
   } catch (error) {
     return null;
   }

@@ -9,7 +9,12 @@ async function loadContent(req, res) {
   const mostrecent = await bookDB.selectMostRecentBooks(0, 28);
   const trending = await bookDB.selectRandomBooks(0, 28);
 
-  res.render('index', { categories: categories.items, bestsellers, mostrecent, trending });
+  res.render('index', {
+    categories: categories.items,
+    bestsellers,
+    mostrecent,
+    trending,
+  });
 }
 
 function catchErrors(fn) {
