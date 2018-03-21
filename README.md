@@ -46,11 +46,25 @@ skráir notndan inn og skilar token, t.d.:
 * `PATCH` á `/users/me` þegar notandi er innskráður með 
 ```json
 {
-    "name": "Notandi Sigurðarson"
+    "name": "Notandi Sigurðarson",
     "password": "123"
 }
 ```
 uppfærir upplýsingar um notanda og skilar notandaupplýsingum.
+
+* `PATCH` á `/users/me/profile` ..................................................
+
+* `GET` á `/categories` sýnir alla flokka.
+
+* `POST` á `/categories` með
+```json
+{
+    "category": "Christmas stories"
+}
+```
+býr til flokkinn Christmas stories og skilar honum.
+
+
 
 ## Nöfn og notendanöfn allra í hóp
 
