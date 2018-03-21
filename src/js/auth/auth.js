@@ -26,9 +26,30 @@ async function strat(data, next) {
 
 passport.use(new Strategy(jwtOptions, strat));
 
-function requireAuthentication(req, res, next) {
-  req.headers.authorization = `bearer ${req.cookies.userToken}`;
+function verifyToken(req, res, next) {
+  console.log('veryfinggdsfds');
+  console.log(`bearer ${req.cookies.userToken}`);
+  
 
+  return passport.authenticate(
+    'jwt',
+    { session: false },
+    (err, user) => {
+      if (err) {
+        return next(err);
+      }
+      if (user) {
+        req.user = user;
+        res.locals.user = user;
+        console.log('sucesss veryyyyy');
+        
+      }
+      return next();
+    },
+  )(req, res, next);
+}
+
+function requireAuthentication(req, res, next) {
   return passport.authenticate(
     'jwt',
     { session: false },
@@ -41,6 +62,8 @@ function requireAuthentication(req, res, next) {
         return res.status(401).json({ error });
       }
       req.user = user;
+      res.locals.user = user;
+
       return next();
     },
   )(req, res, next);
@@ -50,5 +73,6 @@ module.exports = {
   passport,
   requireAuthentication,
   jwtOptions,
+  verifyToken,
 };
 

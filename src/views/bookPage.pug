@@ -43,58 +43,41 @@ block content
               | #{book.price}
       .book__review-container
         h2  Reviews
-        .br__review
-          img.br__img(src='/img/book-category.jpg', alt='')
-          .br__content-wrapper
-            .br__content
-              p.br__ad Huy Nguyen, 26-12-2018
-              .br__rating
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-              p.br__title Excellent book!
-              p.br__description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        .br__review
-          img.br__img(src='/img/book-category.jpg', alt='')
-          .br__content-wrapper
-            .br__content
-              p.br__ad Huy Nguyen, 26-12-2018
-              .br__rating
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-                i.fas.fa-star
-              p.br__title Excellent book!
-              p.br__description
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          each review in reviews
+            .br__review
+              img.br__img(src='/img/book-category.jpg', alt='')
+              .br__content-wrapper
+                .br__content
+                  p.br__ad #{ user.name, moment(new Date(review.date)).format('DD.MM.YYYY') }
+                  .br__rating
+                    - for(var i = 0; i < review.rating; i++)
+                        i.fas.fa-star
+                  p.br__title #{review.title}
+                  p.br__description
+                    | #{review.review}
       .w__review
-        form.review__form(method='POST', action=`/users/me/read?id=${id}`)
-          input#review_title.r__title(type='text', name='reviewTitle', placeholder='Title')
-          label(for='review_title', title='Title')
-          textarea#review_text.r__text(rows='8', cols='80', name='reviewText', placeholder='Comment')
-          label(for='review_text', title='Review comment')
-          .star-rating
-            span Rating: 
-            fieldset
-              input#star5(type='radio', name='rating', value='5')
-              label(for='star5', title='Outstanding') 5 stars
-              input#star4(type='radio', name='rating', value='4')
-              label(for='star4', title='Very Good') 4 stars
-              input#star3(type='radio', name='rating', value='3')
-              label(for='star3', title='Good') 3 stars
-              input#star2(type='radio', name='rating', value='2')
-              label(for='star2', title='Poor') 2 stars
-              input#star1(type='radio', name='rating', value='1')
-              label(for='star1', title='Very Poor') 1 star
-          input#review_submit.r__submit(type='submit', name='review_submit', placeholder='Submit')
+        if (user)
+          form.review__form(method='POST', action=`/users/me/read?id=${id}`)
+            input#review_title.r__title(type='text', name='reviewTitle', placeholder='Title')
+            label(for='review_title', title='Title')
+            textarea#review_text.r__text(rows='8', cols='80', name='reviewText', placeholder='Comment')
+            label(for='review_text', title='Review comment')
+            .star-rating
+              span Rating: 
+              fieldset
+                input#star5(type='radio', name='rating', value='5')
+                label(for='star5', title='Outstanding') 5 stars
+                input#star4(type='radio', name='rating', value='4')
+                label(for='star4', title='Very Good') 4 stars
+                input#star3(type='radio', name='rating', value='3')
+                label(for='star3', title='Good') 3 stars
+                input#star2(type='radio', name='rating', value='2')
+                label(for='star2', title='Poor') 2 stars
+                input#star1(type='radio', name='rating', value='1')
+                label(for='star1', title='Very Poor') 1 star
+            input#review_submit.r__submit(type='submit', name='review_submit', placeholder='Submit')
+        else
+          h4 #{user.username}
     .recently__container
       p Recently viewed
   footer

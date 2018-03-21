@@ -47,7 +47,7 @@ async function login(req, res) {
     const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 1000000 };
     const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
 
-    res.cookie('userToken', token);
+    res.cookie('userToken', token, { domain: '127.0.0.1', expires: new Date(Date.now() + 9000000000), httpOnly: true });
 
     return res.json({ token });
   }
