@@ -85,13 +85,12 @@ async function selectRandomBooks(offset = 0, limit = 10) {
 
 async function search(word, offset = 0, limit = 10) {
   const result = await query('SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery($1) OR to_tsvector(description) @@ to_tsquery($1) OFFSET $2 LIMIT $3', [word, offset, limit]);
-  return result.rows;
+  return { LIMIT: limit, OFFSET: offset, items: result.rows };
 }
 
 async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
   const result = await query('SELECT * FROM review WHERE userid = $1 ORDER BY bookid OFFSET $2 LIMIT $3', [id, offset, limit]);
-
-  return result.rows;
+  return { LIMIT: limit, OFFSET: offset, items: result.rows };
 }
 async function selectReviewsByBookId(bookid) {
   const result = await query('SELECT * FROM review WHERE bookid = $1', [bookid]);
@@ -99,7 +98,9 @@ async function selectReviewsByBookId(bookid) {
   return result.rows;
 }
 
-async function insertReview({ userid, bookid, title, rating, review } = {}) {
+async function insertReview({ 
+  userid, bookid, title, rating, review,
+} = {}) {
   const data = [userid, bookid, title, rating, review];
   const result = await query('INSERT INTO review(userid, bookid, title, rating, review) VALUES($1, $2, $3, $4, $5) RETURNING *', data);
 

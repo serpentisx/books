@@ -9,7 +9,9 @@ const router = express.Router();
 const saltRounds = 10;
 
 async function showAllUsers(req, res) {
-  const data = await usersDB.selectAllUsers();
+  const lim = req.query.limit;
+  const off = req.query.offset;
+  const data = await usersDB.selectAllUsers(off, lim);
   res.json(data);
 }
 
@@ -25,8 +27,9 @@ async function showMe(req, res) {
 
 async function changeMyInfo(req, res) {
   const { name, password } = req.body;
-
-  const errors = val.validate({ name, password, username: req.user.username });
+  const errors = val.validate({
+    name: (name || req.user.name), username: req.user.username, password: (password || req.user.password),
+  });
   if (errors.length > 0) {
     return res.json(errors);
   }
@@ -41,12 +44,13 @@ async function setProfilePic(req, res) {
 
 async function getUserReadBooks(req, res) {
   const { id } = req.params;
-  const data = await usersDB.selectAllReviewsByUserId(id);
+  const data = await bookDB.selectAllReviewsByUserId(id);
   res.json(data);
 }
 
 async function getMyReviews(req, res) {
-
+  const data = await bookDB.selectAllReviewsByUserId(req.user.id);
+  res.json(data);
 }
 
 async function postReview(req, res) {
@@ -71,6 +75,8 @@ async function postReview(req, res) {
 }
 
 async function deleteBook(req, res) {
+  const data = await bookDB.deleteReviewById(req.params.id);
+  res.json(data);
 }
 
 function catchErrors(fn) {

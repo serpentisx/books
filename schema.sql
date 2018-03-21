@@ -33,5 +33,6 @@ CREATE TABLE review (
     bookid integer NOT NULL REFERENCES books,
     title character varying(255) NOT NULL CHECK (title <> ''),
     rating integer NOT NULL CHECK (rating >= 1 and rating <= 5),
-    review text
+    review text,
+    date timestamp with time zone not null default current_timestamp
 );

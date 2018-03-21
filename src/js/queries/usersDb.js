@@ -27,12 +27,22 @@ async function query(q, values = []) {
 async function selectAllUsers(offset = 0, limit = 10) {
   const result = await query('SELECT id, username, name, imagepath FROM users ORDER BY name OFFSET $1 LIMIT $2', [offset, limit]);
 
-  return result.rows;
+  return { LIMIT: limit, OFFSET: offset, items: result.rows };
 }
 
 async function selectUserById(id) {
   const result = await query('SELECT id, username, name, imagepath FROM users WHERE id = $1', [id]);
+  if (result.rowCount === 0) {
+    return { error: 'User not found' };
+  }
+  return result.rows[0];
+}
 
+async function selectUserByIdAlternate(id) {
+  const result = await query('SELECT * FROM users WHERE id = $1', [id]);
+  if (result.rowCount === 0) {
+    return { error: 'User not found' };
+  }
   return result.rows[0];
 }
 
@@ -65,4 +75,5 @@ module.exports = {
   updateUserById,
   insertNewUser,
   selectUserByUsername,
+  selectUserByIdAlternate,
 };
