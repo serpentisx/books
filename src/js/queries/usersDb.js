@@ -69,6 +69,12 @@ async function selectUserByUsername(username) {
   return result.rows[0];
 }
 
+async function updateProfilePicture(id, imgUrl) {
+  const result = await query('UPDATE users SET imagepath = $1 WHERE id = $2 RETURNING id, name, username, imagepath', [imgUrl, id]);
+
+  return result.rowCount === 1 ? result.rows[0] : false;
+}
+
 module.exports = {
   selectAllUsers,
   selectUserById,
@@ -76,4 +82,5 @@ module.exports = {
   insertNewUser,
   selectUserByUsername,
   selectUserByIdAlternate,
+  updateProfilePicture,
 };

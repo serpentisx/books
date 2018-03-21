@@ -4,6 +4,14 @@ const bookDB = require('../queries/booksDb');
 const bcrypt = require('bcrypt');
 const val = require('../validators/userValidator');
 const reviewVal = require('../validators/reviewValidator');
+const cloudinary = require('cloudinary');
+const multer = require('multer');
+
+const uploads = multer({ dest: './temp' });
+
+const CLOUDINARY_API = process.env.CLOUDINARY_URL;
+
+cloudinary.config({ CLOUDINARY_API });
 
 const router = express.Router();
 const saltRounds = 10;
@@ -43,7 +51,28 @@ async function changeMyInfo(req, res) {
   return res.json(data);
 }
 
-async function setProfilePic(req, res) {
+async function setProfilePic(req, res, next) {
+  const { file: { path } = {} } = req;
+
+  if (!path) {
+    return res.send('gat ekki lesið mynd');
+  }
+
+  let upload = null;
+
+  try {
+    upload = await cloudinary.v2.uploader.upload(path);
+  } catch (error) {
+    console.error('Unable to upload file to cloudinary:', path);
+    return next(error);
+  }
+  const { secure_url } = upload; // eslint-disable-line
+  const result = await usersDB.updateProfilePicture(req.user.id, secure_url);
+
+  console.log(result);
+  
+
+  return res.json(result ? result : { error: '500 - error on updating profile picture ' }); // eslint-disable-line
 }
 
 async function getUserReadBooks(req, res) {
@@ -91,7 +120,7 @@ router.get('/', catchErrors(showAllUsers));
 router.get('/me', catchErrors(showMe));
 router.get('/:id', catchErrors(showUser));
 router.patch('/me', catchErrors(changeMyInfo));
-router.post('/me/profile', catchErrors(setProfilePic));
+router.post('/me/profile', uploads.single('image'), catchErrors(setProfilePic));
 router.get('/me/read', catchErrors(getMyReviews));
 router.post('/me/read', catchErrors(postReview));
 router.delete('/me/read/:id', catchErrors(deleteBook));
