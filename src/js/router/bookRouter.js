@@ -62,7 +62,8 @@ async function createBook(req, res) {
 async function getBookById(req, res) {
   const { id } = req.params;
   const book = await bookDB.selectBookById(id);
-  const reviews = await bookDB.selectReviewsByBookId();
+  const reviews = await bookDB.selectReviewsByBookId(id);
+
   book.category = await bookDB.selectCategoryById(book.category);
 
   res.render('bookPage', { book, id, reviews, moment });
