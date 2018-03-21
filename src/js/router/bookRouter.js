@@ -22,7 +22,7 @@ async function showCategories(req, res) {
 }
 
 async function createCategory(req, res) {
-  const data = await insertCategory({ category: req.body.category });
+  const data = await insertCategory(req.body.category);
   res.json(data);
 }
 
