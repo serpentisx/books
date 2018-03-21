@@ -43,18 +43,18 @@ block content
               | #{book.price}
       .book__review-container
         h2  Reviews
-          each review in reviews
-            .br__review
-              img.br__img(src='/img/book-category.jpg', alt='')
-              .br__content-wrapper
-                .br__content
-                  p.br__ad #{ user.name, moment(new Date(review.date)).format('DD.MM.YYYY') }
-                  .br__rating
-                    - for(var i = 0; i < review.rating; i++)
-                        i.fas.fa-star
-                  p.br__title #{review.title}
-                  p.br__description
-                    | #{review.review}
+        each review in reviews
+          .br__review
+            img.br__img(src='/img/book-category.jpg', alt='')
+            .br__content-wrapper
+              .br__content
+                p.br__ad #{review.username}, #{moment(new Date(review.date)).format('DD.MM.YYYY')}
+                .br__rating
+                  - for(var i = 0; i < review.rating; i++)
+                      i.fas.fa-star
+                p.br__title #{review.title}
+                p.br__description
+                  | #{review.review}
       .w__review
         if (user)
           form.review__form(method='POST', action=`/users/me/read?id=${id}`)

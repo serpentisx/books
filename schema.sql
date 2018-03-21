@@ -22,7 +22,7 @@ CREATE TABLE books (
     published character varying(10),
     pagecount integer CHECK (pagecount >= -1),
     language character varying(2),
-    imgUrl text,
+    imgUrl text default '/img/default.jpg',
     price character varying(255),
     bsRank BIGINT CHECK (bsRank >= -1)
 );

@@ -99,7 +99,7 @@ async function selectAllReviewsByUserId(id, offset = 0, limit = 10) {
   return { LIMIT: limit, OFFSET: offset, items: result.rows };
 }
 async function selectReviewsByBookId(bookid) {
-  const result = await query('SELECT * FROM review WHERE bookid = $1', [bookid]);
+  const result = await query('WITH reviews as (SELECT * from review WHERE bookid = $1), tmpusers as (select * from users where id in (select userid from reviews)) Select reviews.review, reviews.rating, reviews.title, reviews.date, tmpusers.username from reviews inner join tmpusers on reviews.userid = tmpusers.id', [bookid]);
 
   return result.rows;
 }
