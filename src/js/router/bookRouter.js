@@ -69,7 +69,9 @@ async function getBookById(req, res) {
 
   book.category = await bookDB.selectCategoryById(book.category);
 
-  res.render('bookPage', { book, id, reviews, moment });
+  res.render('bookPage', {
+    book, id, reviews, moment,
+  });
 }
 
 async function updateBookInfo(req, res) {
