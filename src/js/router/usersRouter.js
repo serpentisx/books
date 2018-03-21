@@ -42,12 +42,12 @@ async function changeMyInfo(req, res) {
   const errors = val.validate({
     name: (name || req.user.name),
     username: req.user.username,
-    password: (password || req.user.password),
+    password: (password || req.user.passwordhash),
   });
   if (errors.length > 0) {
     return res.json(errors);
   }
-  const passwordhash = await bcrypt.hash(password, saltRounds);
+  const passwordhash = req.user.passwordhash || await bcrypt.hash(password, saltRounds);
   const data = await usersDB.updateUserById(req.user.id, { name, passwordhash });
 
   return res.json(data);
