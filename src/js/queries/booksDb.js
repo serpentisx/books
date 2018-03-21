@@ -26,9 +26,17 @@ async function insertBook({
   const res = await query('SELECT id FROM categories where category = $1', [category]);
   const categoryId = res.rows[0].id;
   const data = [title, author, description, isbn13, categoryId, published, pagecount, language];
-
   const t = await query('INSERT INTO books(title, author, description, isbn13, category, published, pagecount, language) VALUES( $1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', data);
+  return t.rows[0];
+}
 
+async function updateBook({
+  title, isbn13, author, description, category, published, pagecount, language, id,
+} = {}) {
+  const res = await query('SELECT id FROM categories where category = $1', [category]);
+  const categoryId = res.rows[0].id;
+  const data = [title, author, description, isbn13, categoryId, published, pagecount, language, id];
+  const t = await query('UPDATE books SET title=$1, author=$2, description=$3, isbn13=$4, category=$5, published=$6, pagecount=$7, language=$8 WHERE id=$9 RETURNING *', data);
   return t.rows[0];
 }
 
@@ -116,4 +124,5 @@ module.exports = {
   selectAllReviewsByUserId,
   insertReview,
   deleteReviewById,
+  updateBook,
 };

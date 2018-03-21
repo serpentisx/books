@@ -1,5 +1,6 @@
 const express = require('express');
 const bookDB = require('../queries/booksDb');
+const val = require('../validators/bookValidator');
 
 const router = express.Router();
 
@@ -9,6 +10,7 @@ const {
   selectAllBooks,
   selectAllCategories,
   search,
+  updateBook,
 } = require('../queries/booksDb');
 
 async function showCategories(req, res) {
@@ -34,18 +36,24 @@ async function getBooks(req, res) {
 }
 
 async function createBook(req, res) {
-  const data = await insertBook({
-    title: req.body.title,
-    isbn13: req.body.isbn13,
-    author: req.body.author,
-    description: req.body.description,
-    category: req.body.category,
-    ISBN10: req.body.isbn10,
-    datetime: req.body.published,
-    pages: req.body.pagecount,
-    language: req.body.language,
+  const {
+    title, isbn13, author,
+    description, category,
+    ISBN10, datetime, pages,
+    language,
+  } = req.body;
+  const errors = val.validate({
+    title, isbn13, author, description, category, ISBN10, datetime, pages, language,
   });
-  res.json(data);
+
+  if (errors.length > 0) {
+    return res.json(errors);
+  }
+
+  const data = await insertBook({
+    title, isbn13, author, description, category, ISBN10, datetime, pages, language,
+  });
+  return res.json(data);
 }
 
 async function getBookById(req, res) {
@@ -56,7 +64,25 @@ async function getBookById(req, res) {
   res.render('bookPage', { book, id });
 }
 
-async function updateBook(req, res) {
+async function updateBookInfo(req, res) {
+  const {
+    title, isbn13, author,
+    description, category,
+    ISBN10, datetime, pages,
+    language,
+  } = req.body;
+  const errors = val.validate({
+    title, isbn13, author, description, category, ISBN10, datetime, pages, language,
+  });
+
+  if (errors.length > 0) {
+    return res.json(errors);
+  }
+  const { id } = req.params;
+  const data = await updateBook({
+    title, isbn13, author, description, category, ISBN10, datetime, pages, language, id,
+  });
+  return res.json(data);
 }
 
 function catchErrors(fn) {
@@ -68,6 +94,6 @@ router.post('/categories', catchErrors(createCategory));
 router.get('/books', catchErrors(getBooks));
 router.post('/books', catchErrors(createBook));
 router.get('/books/:id', catchErrors(getBookById));
-router.patch('/books/:id', catchErrors(updateBook));
+router.patch('/books/:id', catchErrors(updateBookInfo));
 
 module.exports = router;
