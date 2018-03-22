@@ -23,7 +23,7 @@ async function showCategories(req, res) {
 
 async function createCategory(req, res) {
   const data = await insertCategory(req.body.category);
-  res.json(data);
+  res.status(201).json(data);
 }
 
 async function getBooks(req, res) {

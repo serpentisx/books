@@ -36,22 +36,19 @@ async function register(req, res) {
 async function login(req, res) {
   const { username, password } = req.body;
   const user = await selectUserByUsername(username);
+  const pwMatch = user ? await bcrypt.compare(password, user.passwordhash) : null;
 
-  if (user === undefined) {
-    return res.status(401).json({ error: 'No such user' });
+  if (!(user && pwMatch)) {
+    return res.status(401).json({ error: 'Invalid password or username' });
   }
-  const c = await bcrypt.compare(password, user.passwordhash);
 
-  if (c === true) {
-    const payload = { id: user.id };
-    const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 1000000 };
-    const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
+  const payload = { id: user.id };
+  const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 1000000 };
+  const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
 
-    res.cookie('userToken', token, { expires: new Date(Date.now() + 9000000000) });
+  res.cookie('userToken', token, { expires: new Date(Date.now() + 9000000000) });
 
-    return res.json({ token });
-  }
-  return res.status(401).json({ error: 'Invalid password' });
+  return res.json({ token });
 }
 
 async function logout(req, res) {

@@ -57,7 +57,7 @@ async function setProfilePic(req, res, next) {
   const { file: { path } = {} } = req;
 
   if (!path) {
-    return res.send('gat ekki lesið mynd');
+    return res.send('Could not load image');
   }
 
   let upload = null;
@@ -103,7 +103,7 @@ async function postReview(req, res) {
     rating,
   });
 
-  return res.redirect(`/books/${id}`);
+  return res.status(201).redirect(`/books/${id}`);
 }
 
 async function deleteBook(req, res) {

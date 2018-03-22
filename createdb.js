@@ -42,7 +42,7 @@ async function createDbFromCSV() {
 }
 
 async function getExtraInfo() {
-  const books = await bookDb.query('SELECT * FROM books where imgurl IS NULL');
+  const books = await bookDb.query("SELECT * FROM books where imgurl IS NULL OR imgurl = '/img/default.jpg'");
   console.info(`Trying to scrape for: ${books.rows.length} books`);
 
   books.rows.forEach((b) => {
