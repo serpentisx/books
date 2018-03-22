@@ -1,9 +1,21 @@
-# Hópverkefni 1
+# Hópverkefni 1 - _Vefforritun 2_ (HBV403G vor 2018)
+
+<br>
+<hr>
 
 ## Upplýsingar um hvernig setja skal setja upp verkefnið
 
 Búa skal til gagnagrunn með því að keyra schema.sql skránna.
-Til þess að koma öllum upplýingum inn í gagnagrunninn þarf svo að keyra createdb.js skránna.
+Til þess að koma öllum upplýsingum inn í gagnagrunninn þarf svo að keyra createdb.js skránna.
+
+````
+$ node createdb.js
+      Done inserting categories...
+      Inserting books...
+````
+
+<br>
+<hr>
 
 ## Dæmi um köll í vefþjónustu
 
@@ -12,7 +24,7 @@ Til þess að koma öllum upplýingum inn í gagnagrunninn þarf svo að keyra c
 {
   "username": "notandi",
   "name": "Notandi Jónsson",
-  "password": "123" 
+  "password": "123456" 
 }
 ```
 býr til notandann og skilar
@@ -27,10 +39,10 @@ býr til notandann og skilar
 ```json
 {
   "username": "notandi",
-  "password": "123" 
+  "password": "123456" 
 }
 ```
-skráir notndan inn og skilar token, t.d.:
+skráir notandann inn og skilar token, t.d. :
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNTIxNjQxMTgwLCJleHAiOjE1Mjc2NDExODB9.QuMUvXci1uyAQS8pv9uoci_K8x7130UWgt6nY7OUi0E"
@@ -108,9 +120,11 @@ býr til lestur á bók með id 500 í gagnagrunninum. Einnig má tilgreina id �
 
 * `DELETE` á `/users/me/read/:id` eyðir lestri á þeirri bók með tilsvarandi id fyrir innskráðan notanda.
 
-
+<br>
+<hr>
 
 ## Nöfn og notendanöfn allra í hóp
+
 
 \- [Bjarki Viðar Kristjánsson](https://github.com/bjarkivk/), bvk1@hi.is <br>
 \- [Huy Van Nguyen](https://github.com/serpentisx/), hvn1@hi.is
