@@ -64,7 +64,7 @@ skráir notandann inn og skilar token, t.d. :
 ```
 uppfærir upplýsingar um notanda og skilar notandaupplýsingum.
 
-* `POST` á `/users/me/profile` með `multipart/form-data` uppfærir prófílmynd notanda.
+* `multipart/form-data POST` á `/users/me/profile` með **`key = image`**  uppfærir prófílmynd notanda.
 
 * `GET` á `/categories` sýnir alla flokka.
 
