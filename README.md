@@ -21,5 +21,6 @@ $ node createdb.js
 <hr>
 
 ## ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) Endpoint examples
-See **_readme.md_** documentation from **[bjarkivk/books](https://github.com/bjarkivk/books)**
+The Base URL is `https://h2books.herokuapp.com/` <br>
+See **_readme.md_** documentation from **[bjarkivk/books](https://github.com/bjarkivk/books)** for details about endpoints.
 
