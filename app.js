@@ -5,16 +5,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const api = require('./src/js/router/api');
 
-const cookieSecret = process.env.COOKIE_SECRET || 'penguin';
-
 const app = express();
-app.use(cookieParser(cookieSecret));
 
 app.use(express.urlencoded({ extended: true }));
-app.set('views', path.join(__dirname, 'src/views'));
-app.set('view engine', 'pug');
-
-app.use(express.static(path.join(__dirname, 'src/public')));
 app.use(express.json());
 
 function notFoundHandler(req, res, next) { // eslint-disable-line

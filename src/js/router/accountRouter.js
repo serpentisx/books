@@ -43,22 +43,10 @@ async function login(req, res) {
   }
 
   const payload = { id: user.id };
-  const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 1000000 };
+  const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 7200 };
   const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
 
-  res.cookie('userToken', token, { expires: new Date(Date.now() + 9000000000) });
-
   return res.json({ token });
-}
-
-async function logout(req, res) {
-  res.clearCookie('userToken');
-
-  return res.json({ token: null });
-}
-
-async function loginPage(req, res) {
-  return res.render('login');
 }
 
 function catchErrors(fn) {
@@ -67,8 +55,6 @@ function catchErrors(fn) {
 
 router.post('/register', catchErrors(register));
 router.post('/login', catchErrors(login));
-router.get('/login', catchErrors(loginPage));
-router.get('/logout', catchErrors(logout));
 
 module.exports = router;
 
