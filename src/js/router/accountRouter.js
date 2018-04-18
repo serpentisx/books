@@ -46,7 +46,7 @@ async function login(req, res) {
   const tokenOptions = { expiresIn: parseInt(process.env.TOKEN_LIFETIME, 10) || 7200 };
   const token = jwt.sign(payload, jwtOptions.secretOrKey, tokenOptions);
 
-  return res.json({ token });
+  return res.json({ token, user: req.user });
 }
 
 function catchErrors(fn) {
